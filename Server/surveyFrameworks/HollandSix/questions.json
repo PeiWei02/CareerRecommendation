@@ -1,0 +1,172 @@
+{
+  "interests": [
+    {
+      "id": 1,
+      "description": "I like to work on cars"
+    },
+    {
+      "id": 2,
+      "description": "I like to do puzzles"
+    },
+    {
+      "id": 3,
+      "description": "I am good at working independently"
+    },
+    {
+      "id": 4,
+      "description": "I like to work in teams"
+    },
+    {
+      "id": 5,
+      "description": "I am an ambitious person, I set goals for myself"
+    },
+    {
+      "id": 6,
+      "description": "I like to organize things, (files, desks/offices)"
+    },
+    {
+      "id": 7,
+      "description": "I like to build things"
+    },
+    {
+      "id": 8,
+      "description": "I like to read about art and music"
+    },
+    {
+      "id": 9,
+      "description": "I like to have clear instructions to follow"
+    },
+    {
+      "id": 10,
+      "description": "I like to try to influence or persuade people"
+    },
+    {
+      "id": 11,
+      "description": "I like to do experiments"
+    },
+    {
+      "id": 12,
+      "description": "I like to teach or train people"
+    },
+    {
+      "id": 13,
+      "description": "I like trying to help people solve their problems"
+    },
+    {
+      "id": 14,
+      "description": "I like to take care of animals"
+    },
+    {
+      "id": 15,
+      "description": "I wouldn’t mind working 8 hours per day in an office"
+    },
+    {
+      "id": 16,
+      "description": "I like selling things"
+    },
+    {
+      "id": 17,
+      "description": "I enjoy creative writing"
+    },
+    {
+      "id": 18,
+      "description": "I enjoy science"
+    },
+    {
+      "id": 19,
+      "description": "I am quick to take on new responsibilities"
+    },
+    {
+      "id": 20,
+      "description": "I am interested in healing people"
+    },
+    {
+      "id": 21,
+      "description": "I enjoy trying to figure out how things work"
+    },
+    {
+      "id": 22,
+      "description": "I like putting things together or assembling things"
+    },
+    {
+      "id": 23,
+      "description": "I am a creative person"
+    },
+    {
+      "id": 24,
+      "description": "I pay attention to details"
+    },
+    {
+      "id": 25,
+      "description": "I like to do filing or typing"
+    },
+    {
+      "id": 26,
+      "description": "I like to analyze things (problems/situations)"
+    },
+    {
+      "id": 27,
+      "description": "I like to play instruments or sing"
+    },
+    {
+      "id": 28,
+      "description": "I enjoy learning about other cultures"
+    },
+    {
+      "id": 29,
+      "description": "I would like to start my own business"
+    },
+    {
+      "id": 30,
+      "description": "I like to cook"
+    },
+    {
+      "id": 31,
+      "description": "I like acting in plays"
+    },
+    {
+      "id": 32,
+      "description": "I am a practical person"
+    },
+    {
+      "id": 33,
+      "description": "I like working with numbers or charts"
+    },
+    {
+      "id": 34,
+      "description": "I like to get into discussions about issues"
+    },
+    {
+      "id": 35,
+      "description": "I am good at keeping records of my work"
+    },
+    {
+      "id": 36,
+      "description": "I like to lead"
+    },
+    {
+      "id": 37,
+      "description": "I like working outdoors"
+    },
+    {
+      "id": 38,
+      "description": "I would like to work in an office"
+    },
+    {
+      "id": 39,
+      "description": "I’m good at math"
+    },
+    {
+      "id": 40,
+      "description": "I like helping people"
+    },
+    {
+      "id": 41,
+      "description": "I like to draw"
+    },
+    {
+      "id": 42,
+      "description": "I like to give speeches"
+    }
+  ]
+}

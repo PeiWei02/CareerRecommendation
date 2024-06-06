@@ -1,0 +1,24 @@
+{
+  "interests": [
+    {
+      "id": 1,
+      "description": "I like to work on cars"
+    },
+    {
+      "id": 2,
+      "description": "I like to do puzzles"
+    },
+    {
+      "id": 3,
+      "description": "I am good at working independently"
+    },
+    {
+      "id": 4,
+      "description": "I like to work in teams"
+    },
+    {
+      "id": 5,
+      "description": "I am an ambitious person, I set goals for myself"
+    }
+  ]
+}
