@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import Header from "./layout/header.jsx";
 import Login from "./pages/authentication/Login.jsx";
 import SignUp from "./pages/authentication/SignUp.jsx";
@@ -36,6 +35,11 @@ function App() {
           path="/profile"
           element={<ProtectedRoute element={<Profile />} />}
         />
+        <Route
+          path="/setting"
+          element={<ProtectedRoute element={<>Setting</>} />}
+        />
+        <Route path="/job" element={<ProtectedRoute element={<>job</>} />} />
       </Routes>
     </>
   );

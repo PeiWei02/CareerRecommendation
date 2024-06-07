@@ -1,17 +1,17 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { survey } from "../../../api/authentication/survey.js";
 import question from "../components/Question.json";
-import { Link } from "react-router-dom";
 
-//TODO: Make previous buttton/, submit button/, collect answer when submitting, navigate to answer display
 const Question = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
 
@@ -56,6 +56,28 @@ const Question = () => {
         : "hover:bg-primary";
     }
     return "hover:bg-primary";
+  };
+
+  //TODO Create a function to convert the to Specific JSON file
+  const handleSubmit = async () => {
+    const holland6Result = {
+      Hollan6_Result: {},
+    };
+
+    Object.keys(answers).forEach((key) => {
+      holland6Result.Hollan6_Result[key] = {
+        like: parseInt(answers[key]),
+      };
+    });
+
+    try {
+      const data = await survey(holland6Result);
+      const highest = data.highest;
+      navigate("/survey/result", { state: { highest: highest } });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   return (
@@ -104,11 +126,12 @@ const Question = () => {
           )}
           {answers[question.interests.length] !== undefined && (
             <div className="items-end">
-              <Link to="/survey/result">
-                <Button className="bg-green-500 hover:bg-green-600">
-                  Submit
-                </Button>
-              </Link>
+              <Button
+                onClick={handleSubmit}
+                className="bg-green-500 hover:bg-green-600"
+              >
+                Submit
+              </Button>
             </div>
           )}
         </div>

@@ -7,7 +7,7 @@ export const checkAuthStatus = async () => {
       {},
       { withCredentials: true }
     );
-    return response.status === 200;
+    return true;
   } catch (err) {
     return false;
   }

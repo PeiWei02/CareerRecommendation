@@ -14,6 +14,7 @@ import RealisticJson from "../../../../src/assets/Holland's 6/Realistic.json";
 import SocialJson from "../../../../src/assets/Holland's 6/Social.json";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const resultMapping = {
   R: {
@@ -113,8 +114,11 @@ const resultMapping = {
   },
 };
 
-const Result = ({ type }) => {
-  const selectedResult = resultMapping[type] || resultMapping.S;
+const Result = () => {
+  const location = useLocation();
+  const { state } = location; 
+  const { highest } = state || {}; // Safeguard for missing state
+  const selectedResult = resultMapping[highest];
 
   return (
     <div className="flex items-center justify-center">
