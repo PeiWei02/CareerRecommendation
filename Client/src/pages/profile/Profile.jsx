@@ -7,13 +7,34 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useUser } from "@/lib/context/UserContext";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CountryCitySetting from "./components/CountryCitySetting";
+import BioImageSetting from "./components/BioImageSetting";
+import EmailPasswordPhoneSetting from "./components/EmailPasswordPhoneSetting";
 
 const Profile = () => {
+  const { userDetails } = useUser();
+  const [selectedUserDetails, setSelectedUserDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setSelectedUserDetails(userDetails);
+    console.log("selectedUserDetails", selectedUserDetails);
+    // console.log("userDetails", userDetails);
+  });
+  console.log("userDetails", userDetails);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,19 +58,16 @@ const Profile = () => {
             <CardHeader className="mb-2 mt-6">
               <AspectRatio ratio={1} className="m-5">
                 <img
-                  src="https://images.unsplash.com/photo-1581382575275-97901c2635b7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="https://i.pinimg.com/750x/18/b9/ff/18b9ffb2a8a791d50213a9d595c4dd52.jpg"
                   alt="Profile picture"
                   className="object-cover w-full h-full rounded-full"
                 />
               </AspectRatio>
             </CardHeader>
             <CardFooter className="flex-col items-start">
-              <CardTitle>Pei Wei</CardTitle>
+              <CardTitle>{userDetails.name}</CardTitle>
               <CardDescription className="max-w-lg text-balance leading-relaxed">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-                rerum aut odit quas cupiditate nisi id facilis ad doloribus eos
-                nulla, dolores ut possimus consequatur ipsa saepe tenetur ab
-                quod.
+                {userDetails.bio}
               </CardDescription>
             </CardFooter>
           </Card>
@@ -62,36 +80,96 @@ const Profile = () => {
 
             <CardFooter className="flex-col ">
               <div className="w-full h-full">
-                <Card className="w-[] mt-4 hover:bg-muted/70">
-                  <CardHeader className="">
-                    <CardDescription>
-                      Email, Password & Phone Number
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-                <Card className="w-full mt-4 hover:bg-muted/70">
-                  <CardHeader className="">
-                    <CardDescription>Image and Bio</CardDescription>
-                  </CardHeader>
-                </Card>
+                <EmailPasswordPhoneSetting />
 
-                <Card className="w-full mt-4 hover:bg-muted/70">
-                  <CardHeader className="">
-                    <CardDescription>City & Country</CardDescription>
-                  </CardHeader>
-                </Card>
+                {/* <EmailPasswordPhoneSetting /> */}
 
-                <Card className="w-full mt-4 hover:bg-muted/70">
-                  <CardHeader className="">
-                    <CardDescription>Account</CardDescription>
-                  </CardHeader>
-                </Card>
+                <BioImageSetting />
 
-                <Card className="w-full mt-4 hover:bg-muted/70">
-                  <CardHeader className="">
-                    <CardDescription>About us</CardDescription>
-                  </CardHeader>
-                </Card>
+                <CountryCitySetting />
+
+                <Dialog className="w-full">
+                  <DialogTrigger className="w-full ">
+                    <Card className=" mt-4 hover:bg-muted/70">
+                      <CardHeader className="justify-start items-start">
+                        <CardDescription>Account Privacy</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader className="items-center">
+                      <DialogTitle>Account Privacy</DialogTitle>
+                      <DialogDescription className="text-justify">
+                        At Personalized Recommendation Tools System, we deeply
+                        value your privacy and are committed to protecting your
+                        personal information. Your account privacy settings are
+                        designed to give you control over how your data is
+                        collected, used, and shared. Here are the key aspects of
+                        account privacy: Profile Visibility: You have the option
+                        to control the visibility of your profile. Choose
+                        whether you want your profile to be public, visible to
+                        specific users, or completely private. Data Collection:
+                        We only collect the data necessary to provide you with
+                        personalized recommendations. Your data is securely
+                        stored and never shared with third parties without your
+                        consent. Opt-out Preferences: You have the right to opt
+                        out of certain data collection practices, such as
+                        tracking cookies or personalized advertisements. We
+                        respect your preferences and ensure that opting out does
+                        not affect your experience with our recommendation
+                        system. Data Security: We employ industry-standard
+                        security measures to protect your account information
+                        from unauthorized access, disclosure, alteration, or
+                        destruction. Your data is encrypted and stored securely
+                        on our servers. Transparency: We are transparent about
+                        our data collection practices and privacy policies. You
+                        can review our privacy policy to understand how your
+                        data is handled and what rights you have regarding your
+                        personal information. Data Deletion: Your privacy is our
+                        top priority. We are committed to maintaining the
+                        confidentiality and integrity of your personal
+                        information while providing you with the best possible
+                        personalized recommendation experience. If you have any
+                        questions or concerns about account privacy, please
+                        don't hesitate to contact our privacy team for
+                        assistance.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog className="w-full">
+                  <DialogTrigger className="w-full ">
+                    <Card className=" mt-4 hover:bg-muted/70">
+                      <CardHeader className="justify-start items-start">
+                        <CardDescription>About us</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader className="items-center">
+                      <DialogTitle>About Us</DialogTitle>
+                      <DialogDescription className="text-justify">
+                        Welcome to our Personalized Recommendation Tools System,
+                        developed by NG PEI WEI under the guidance of Dr. Liyana
+                        and in collaboration with Yougminds Malaysia. Our system
+                        is the result of a dynamic partnership between
+                        innovative minds and industry leaders, combining
+                        expertise in machine learning, data analytics, and
+                        personalized learning solutions. Driven by a commitment
+                        to delivering highly accurate and relevant
+                        recommendations, our system analyzes user data to offer
+                        tailored suggestions across various domains, from
+                        entertainment to education. With a focus on individual
+                        preferences and needs, our recommendation tools provide
+                        personalized guidance, empowering users to discover new
+                        experiences and make informed decisions. Join us as we
+                        revolutionize the way recommendations are made, one
+                        personalized suggestion at a time.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
 
                 <Button
                   onClick={handleSubmit}

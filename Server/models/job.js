@@ -36,6 +36,18 @@ const jobSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    experience: {
+      type: String,
+      require: true,
+    },
+    qualification: {
+      type: String,
+      require: true,
+    },
+    picture: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true,

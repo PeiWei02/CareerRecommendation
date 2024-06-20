@@ -37,8 +37,10 @@ const ProtectedRoute = ({ element }) => {
                 animationData={failLogInJson}
                 style={{ width: "50%", height: "50%" }}
               ></Lottie>
-              <Link to="/login" className="w-[50%]">
-                <Button className="items-center my-6 w-full">Login</Button>
+              <Link to="/login">
+                <Button className="items-center my-6 " size="lg">
+                  Login
+                </Button>
               </Link>
             </CardHeader>
           </Card>

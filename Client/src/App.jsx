@@ -1,23 +1,27 @@
 import { Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./api/authentication/ProtectedRoute.jsx";
+import { Toaster } from "./components/ui/toaster.jsx";
 import Header from "./layout/header.jsx";
 import Login from "./pages/authentication/Login.jsx";
 import SignUp from "./pages/authentication/SignUp.jsx";
+import Landing from "./pages/landing/Landing.jsx";
 import Profile from "./pages/profile/Profile";
 import Survey from "./pages/survey/Survey.jsx";
 import Question from "./pages/survey/components/Question.jsx";
 import Result from "./pages/survey/components/Result.jsx";
-import ProtectedRoute from "./api/authentication/ProtectedRoute.jsx";
+import CommingSoon from "./pages/commingSoon/CommingSoon.jsx";
+import Job from "./pages/job/Job.jsx";
 
 function App() {
   return (
     <>
       <Header />
-
+      <Toaster />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
 
-        <Route path="/" element={<>hero</>} />
+        <Route path="/" element={<Landing />} />
 
         <Route
           path="/survey"
@@ -39,7 +43,7 @@ function App() {
           path="/setting"
           element={<ProtectedRoute element={<>Setting</>} />}
         />
-        <Route path="/job" element={<ProtectedRoute element={<>job</>} />} />
+        <Route path="/job" element={<ProtectedRoute element={<Job />} />} />
       </Routes>
     </>
   );

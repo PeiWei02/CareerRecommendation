@@ -2,20 +2,90 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import signupJson from "../../../src/assets/authentication/signup.json";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
+import { City, Country } from "country-state-city";
+import { signUp } from "@/api/authentication/signUp";
+// import Select from "react-select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
     mobileNumber: "",
+    countryCode: "",
+    countryName: "",
+    city: "",
+    bio: "",
   });
 
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    // Fetch and set countries on component mount
+    const countryList = Country.getAllCountries().map((country) => ({
+      label: country.name,
+      value: country.isoCode,
+    }));
+    setCountries(countryList);
+  }, []);
+
+  useEffect(() => {
+    // Fetch and set cities when countryCode changes
+    if (formData.countryCode) {
+      const cityList = City.getCitiesOfCountry(formData.countryCode).map(
+        (city) => ({
+          label: city.name,
+          value: city.name,
+        })
+      );
+      setCities(cityList);
+    } else {
+      setCities([]);
+      setFormData((prevData) => ({ ...prevData, city: "" }));
+    }
+  }, [formData.countryCode]);
+
+  const handleCountryChange = (value) => {
+    const selectedCountry = countries.find(
+      (country) => country.value === value
+    );
+    if (selectedCountry) {
+      setFormData((prevData) => ({
+        ...prevData,
+        countryCode: selectedCountry.value,
+        countryName: selectedCountry.label,
+        city: "", // Reset city when country changes
+      }));
+    }
+  };
+
+  const handleCityChange = (value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      city: value,
+    }));
+    console.log(formData);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,16 +107,46 @@ const SignUp = () => {
       newErrors.mobileNumber = "Mobile number is required";
     if (!/^\d{10}$/.test(formData.mobileNumber))
       newErrors.mobileNumber = "Mobile number must be 10 digits";
+    if (!formData.countryCode) newErrors.country = "Country is required";
+    if (!formData.city) newErrors.city = "City is required";
+    if (!formData.bio) newErrors.bio = "Bio is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
+
     if (validate()) {
-      // Call your API here
-      console.log("Form submitted successfully", formData);
+      try {
+        const requestBody = {
+          name: formData.name,
+          mobile: formData.mobileNumber,
+          email: formData.email,
+          password: formData.password,
+          profilePicture: "",
+          city: formData.city,
+          country: formData.countryName,
+          bio: formData.bio,
+        };
+
+        const response = await signUp(requestBody);
+        navigate("/login");
+        toast({
+          title: "Success!",
+          description: "Account created successfully. Please login now",
+          status: "success",
+        });
+      } catch (error) {
+        console.error("Sign up error:", error);
+        toast({
+          title: "Error",
+          description: error.message || "Failed to sign up.",
+          status: "error",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -101,69 +201,139 @@ const SignUp = () => {
                 Create an account
               </h1>
               <p className="text-sm text-muted-foreground">
-                Enter your detils below to create your account
+                Enter your details below to create your account
               </p>
             </div>
-            <form onSubmit={handleSubmit} className="space-y-4 w-full">
-              <Input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              {errors.name && (
-                <span className="text-red-500 text-sm">{errors.name}</span>
-              )}
+            <form onSubmit={handleSignUp} className="space-y-4 w-full">
+              <ScrollArea className="h-80 w-full ">
+                <div className="mb-4 p-1">
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                  {errors.name && (
+                    <span className="text-red-500 text-sm">{errors.name}</span>
+                  )}
+                </div>
 
-              <Input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              {errors.email && (
-                <span className="text-red-500 text-sm">{errors.email}</span>
-              )}
+                <div className="mb-4 p-1">
+                  <Input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                  {errors.email && (
+                    <span className="text-red-500 text-sm">{errors.email}</span>
+                  )}
+                </div>
 
-              <Input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              {errors.password && (
-                <span className="text-red-500 text-sm">{errors.password}</span>
-              )}
+                <div className="mb-4 p-1">
+                  <Input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  {errors.password && (
+                    <span className="text-red-500 text-sm">
+                      {errors.password}
+                    </span>
+                  )}
+                </div>
 
-              <Input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm your password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-              />
-              {errors.confirmPassword && (
-                <span className="text-red-500 text-sm">
-                  {errors.confirmPassword}
-                </span>
-              )}
+                <div className="mb-4 p-1">
+                  <Input
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                  />
+                  {errors.confirmPassword && (
+                    <span className="text-red-500 text-sm">
+                      {errors.confirmPassword}
+                    </span>
+                  )}
+                </div>
 
-              <Input
-                type="text"
-                name="mobileNumber"
-                placeholder="Mobile Number"
-                value={formData.mobileNumber}
-                onChange={handleChange}
-              />
-              {errors.mobileNumber && (
-                <span className="text-red-500 text-sm">
-                  {errors.mobileNumber}
-                </span>
-              )}
+                <div className="mb-4 p-1">
+                  <Input
+                    type="text"
+                    name="mobileNumber"
+                    placeholder="Mobile Number"
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                  />
+                  {errors.mobileNumber && (
+                    <span className="text-red-500 text-sm">
+                      {errors.mobileNumber}
+                    </span>
+                  )}
+                </div>
 
+                <div className="mb-4 p-1">
+                  <Input
+                    type="text"
+                    name="bio"
+                    placeholder="Bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                  />
+                  {errors.bio && (
+                    <span className="text-red-500 text-sm">{errors.bio}</span>
+                  )}
+                </div>
+
+                <div className="mb-4 p-1">
+                  <Select onValueChange={handleCountryChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Country</SelectLabel>
+                        {countries.map((country) => (
+                          <SelectItem key={country.value} value={country.value}>
+                            {country.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {errors.country && (
+                    <span className="text-red-500 text-sm">
+                      {errors.country}
+                    </span>
+                  )}
+                </div>
+
+                <div className="mb-4 p-1">
+                  <Select onValueChange={handleCityChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>City</SelectLabel>
+                        {cities.map((city) => (
+                          <SelectItem key={city.value} value={city.value}>
+                            {city.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {errors.city && (
+                    <span className="text-red-500 text-sm">{errors.city}</span>
+                  )}
+                </div>
+              </ScrollArea>
               <Button type="submit" className="w-full">
                 Sign up
               </Button>

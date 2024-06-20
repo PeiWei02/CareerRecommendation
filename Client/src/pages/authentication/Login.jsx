@@ -6,8 +6,12 @@ import { cn } from "@/lib/utils";
 import Lottie from "lottie-react";
 import loginJson from "../../../src/assets/authentication/login.json";
 import { login } from "@/api/authentication/login.js";
+import { useUser } from "@/lib/context/UserContext";
+import { useToast } from "@/components/ui/use-toast";
 
 const Login = () => {
+  const { toast } = useToast();
+  const { userDetails, setUserDetails } = useUser();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -46,9 +50,22 @@ const Login = () => {
       setIsLoading(true);
       try {
         const data = await login(formData.email, formData.password);
-        console.log("Login successful", data);
+        // console.log("Login successful", data);
+        setUserDetails(data.User);
+        // console.log("userDetails", userDetails);
         navigate("/");
+        toast({
+          title: "Success!",
+          description: "Log in successful",
+          status: "success",
+        });
       } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to login. Check your credentials",
+          status: "error",
+          variant: "destructive",
+        });
         console.error("Error logging in", error);
         setErrors({ api: error.message });
       } finally {
