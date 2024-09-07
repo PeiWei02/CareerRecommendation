@@ -74,6 +74,10 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    navigate('/forgot_password')
+  }
+
   return (
     <>
       <div className="container relative hidden h-[calc(100vh-3.5rem)] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -150,16 +154,23 @@ const Login = () => {
               {errors.password && (
                 <span className="text-red-500 text-sm">{errors.password}</span>
               )}
-
+              <Link to="/forgot_password">
+                <div className="flex justify-end">
+                  <p className="text-center text-xs text-muted-foreground mt-2">
+                    Forgot your password?
+                  </p>
+                </div>
+              </Link>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Log In"}
               </Button>
             </form>
             <Link to="/signup">
               <p className="px-8 text-center text-sm text-muted-foreground">
-                Don't have an account? Sign up here!
+                Dont have an account? Sign up here!
               </p>
             </Link>
+
           </div>
         </div>
       </div>
