@@ -1,0 +1,6 @@
+{
+    "prettier.runOnSave": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true,
+    "notebook.defaultFormatter": "dbaeumer.vscode-eslint"
+}

@@ -11,6 +11,8 @@ import Question from "./pages/survey/components/Question.jsx";
 import Result from "./pages/survey/components/Result.jsx";
 import CommingSoon from "./pages/commingSoon/CommingSoon.jsx";
 import Job from "./pages/job/Job.jsx";
+import { TheVarkQuestionnaireScreen } from "./modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx";
+import { TheVarkResultScreen } from "./modules/theVark/view/screen/TheVarkResultScreen.jsx";
 
 function App() {
   return (
@@ -43,7 +45,13 @@ function App() {
           path="/setting"
           element={<ProtectedRoute element={<>Setting</>} />}
         />
+        
         <Route path="/job" element={<ProtectedRoute element={<Job />} />} />
+
+        <Route path="/theVark" element={<ProtectedRoute element={<TheVarkQuestionnaireScreen/>}/>} />
+
+        <Route path="/theVark/result" element={<ProtectedRoute element={<TheVarkResultScreen/>}/>} />
+
       </Routes>
     </>
   );
