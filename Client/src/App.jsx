@@ -13,6 +13,7 @@ import CommingSoon from "./pages/commingSoon/CommingSoon.jsx";
 import Job from "./pages/job/Job.jsx";
 import { TheVarkQuestionnaireScreen } from "./modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx";
 import { TheVarkResultScreen } from "./modules/theVark/view/screen/TheVarkResultScreen.jsx";
+import { SurveyLandingScreen } from "./modules/survey/view/screen/SurveyLandingScreen.jsx";
 
 function App() {
   return (
@@ -20,23 +21,36 @@ function App() {
       <Header />
       <Toaster />
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-
-        <Route path="/" element={<Landing />} />
+        <Route path="/commingSoon" element={<CommingSoon />} />
 
         <Route
           path="/survey"
+          element={<ProtectedRoute element={<SurveyLandingScreen />} />}
+        />
+        <Route
+          path="/holland6"
           element={<ProtectedRoute element={<Survey />} />}
         />
         <Route
-          path="/survey/question"
+          path="/holland6/question"
           element={<ProtectedRoute element={<Question />} />}
         />
         <Route
-          path="/survey/result"
+          path="/holland6/result"
           element={<ProtectedRoute element={<Result />} />}
         />
+        <Route
+          path="/theVark"
+          element={<ProtectedRoute element={<TheVarkQuestionnaireScreen />} />}
+        />
+        <Route
+          path="/theVark/result"
+          element={<ProtectedRoute element={<TheVarkResultScreen />} />}
+        />
+
         <Route
           path="/profile"
           element={<ProtectedRoute element={<Profile />} />}
@@ -45,13 +59,8 @@ function App() {
           path="/setting"
           element={<ProtectedRoute element={<>Setting</>} />}
         />
-        
+
         <Route path="/job" element={<ProtectedRoute element={<Job />} />} />
-
-        <Route path="/theVark" element={<ProtectedRoute element={<TheVarkQuestionnaireScreen/>}/>} />
-
-        <Route path="/theVark/result" element={<ProtectedRoute element={<TheVarkResultScreen/>}/>} />
-
       </Routes>
     </>
   );
