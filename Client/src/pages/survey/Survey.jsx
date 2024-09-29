@@ -31,7 +31,7 @@ const Survey = () => {
             animationData={animationData}
             style={{ width: "30%", height: "30%" }}
           />
-          <Link to="/survey/question">
+          <Link to="/holland6/question">
             <Button>Take Test</Button>
           </Link>
         </CardFooter>

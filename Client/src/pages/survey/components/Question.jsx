@@ -73,7 +73,7 @@ const Question = () => {
     try {
       const data = await survey(holland6Result);
       const highest = data.highest;
-      navigate("/survey/result", { state: { highest: highest } });
+      navigate("/holland6/result", { state: { highest: highest } });
     } catch (error) {
       console.error(error);
       throw error;
