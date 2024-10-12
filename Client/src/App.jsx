@@ -14,6 +14,8 @@ import Job from "./pages/job/Job.jsx";
 import { TheVarkQuestionnaireScreen } from "./modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx";
 import { TheVarkResultScreen } from "./modules/theVark/view/screen/TheVarkResultScreen.jsx";
 import { SurveyLandingScreen } from "./modules/survey/view/screen/SurveyLandingScreen.jsx";
+import { MBTIQuestionnaireScreen } from "./modules/mbti/view/screen/MBTIQuestionnaireScreen.jsx";
+import { MBTIResultScreen } from "./modules/mbti/view/screen/MBTIResultScreen.jsx";
 
 function App() {
   return (
@@ -50,11 +52,21 @@ function App() {
           path="/theVark/result"
           element={<ProtectedRoute element={<TheVarkResultScreen />} />}
         />
+        <Route
+          path="/mbti/question"
+          element={<ProtectedRoute element={<MBTIQuestionnaireScreen />} />}
+        />
+
+        <Route
+          path="/mbti/result"
+          element={<ProtectedRoute element={<MBTIResultScreen />} />}
+        />
 
         <Route
           path="/profile"
           element={<ProtectedRoute element={<Profile />} />}
         />
+
         <Route
           path="/setting"
           element={<ProtectedRoute element={<>Setting</>} />}

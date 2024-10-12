@@ -39,23 +39,3 @@ export function TheVarkCalculator(answers) {
     };
 }
 
-const exampleResult = {
-    0: ['A', 'B'],
-    1: ['B', 'C', 'A'],
-    2: ['C', 'A', 'B'],
-    3: ['B', 'A', 'C'],
-    4: ['C', 'B'],
-    5: ['C', 'B', 'A', 'D'],
-    6: ['D', 'C', 'B'],
-    7: ['A', 'B'],
-    8: ['C', 'B', 'A'],
-    9: ['D', 'C', 'B'],
-    10: ['C'],
-    11: ['D'],
-    12: ['D', 'B'],
-    13: ['C', 'B', 'A'],
-    14: ['D', 'C', 'B'],
-    15: ['B']
-};
-
-console.log(TheVarkCalculator(exampleResult));
