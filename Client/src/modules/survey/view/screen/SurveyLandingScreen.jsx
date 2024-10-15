@@ -8,7 +8,7 @@ export const SurveyLandingScreen = () => {
       <div className="text-3xl font-semibold mb-6">
         Explore Your Career Path Surveys
       </div>
-      <div className="flex flex-col pt-2 gap-6 justify-center items-center">
+      <div className="flex flex-col pt-2 gap-5 justify-center items-center">
         <SurveyLandingListItem
           title="Holland 6"
           description="Discover your career interests based on Holland's six personality types and find professions that align with your strengths."
@@ -25,7 +25,7 @@ export const SurveyLandingScreen = () => {
           title="Myers-Briggs Type Indicator (MBTI)"
           description="Explore your personality type with the Myers-Briggs Type Indicator and unlock insights into your career and interpersonal strengths."
           animation={surveyAsset.MBTI}
-          link="/commingSoon"
+          link="/mbti/question"
         />
       </div>
     </Screen>
