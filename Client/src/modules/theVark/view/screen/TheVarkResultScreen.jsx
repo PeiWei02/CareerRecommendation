@@ -10,6 +10,8 @@ import { theVarkResult } from "../../data/entity/theVarkResult";
 import Lottie from "lottie-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { VarkResultPDF } from "../component/VarkResultPDF";
 
 export const TheVarkResultScreen = () => {
   const location = useLocation();
@@ -79,6 +81,19 @@ export const TheVarkResultScreen = () => {
                     Re-attempt
                   </Button>
                 </Link>
+                <PDFDownloadLink
+                  document={<VarkResultPDF personalityInfo={personalityInfo} />}
+                  fileName="TheVarkReport.pdf"
+                  className="ml-3"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      "Loading document..."
+                    ) : (
+                      <Button variant="outline">Download PDF</Button>
+                    )
+                  }
+                </PDFDownloadLink>
               </div>
             </div>
           </div>

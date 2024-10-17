@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const survey = async (Json) => {
+export const Holland6Service = async (Json) => {
   const id = "66530595dc9749f53177b1f5";
 
   try {
@@ -11,6 +11,7 @@ export const survey = async (Json) => {
     );
     return response.data;
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
