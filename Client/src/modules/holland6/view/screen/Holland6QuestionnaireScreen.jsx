@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,10 +8,11 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { survey } from "../../../api/authentication/survey.js";
-import question from "../components/Question.json";
+import holland6Questionnaire from '../../data/entity/holland6Questionnaire.json'
+import { Holland6ResultScreen } from "./Holland6ResultScreen";
+import { Holland6Service } from "../../data/source/Holland6Service";
 
-const Question = () => {
+export const Holland6QuestionnaireScreen = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -25,14 +27,14 @@ const Question = () => {
   };
 
   const next = () => {
-    if (currentIndex != question.interests.length - 1) {
+    if (currentIndex != holland6Questionnaire.interests.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
 
   const handlePreviousClick = (response) => {
     console.log(`Interest ${currentIndex + 1}: ${response}`);
-    if (currentIndex < question.interests.length) {
+    if (currentIndex < holland6Questionnaire.interests.length) {
       setCurrentIndex(currentIndex - 1);
       console.log("Current question", currentIndex);
     } else {
@@ -71,7 +73,7 @@ const Question = () => {
     });
 
     try {
-      const data = await survey(holland6Result);
+      const data = await Holland6Service(holland6Result);
       const highest = data.highest;
       navigate("/holland6/result", { state: { highest: highest } });
     } catch (error) {
@@ -91,7 +93,7 @@ const Question = () => {
             <div className="flex-1 text-center">
               <div className="text-xl">Question {currentIndex + 1}</div>
               <CardDescription className="text-3xl py-3">
-                {question.interests[currentIndex].description}
+                {holland6Questionnaire.interests[currentIndex].description}
                 {console.log(answers)}
               </CardDescription>
             </div>
@@ -124,7 +126,7 @@ const Question = () => {
               </Button>
             </div>
           )}
-          {answers[question.interests.length] !== undefined && (
+          {answers[holland6Questionnaire.interests.length] !== undefined && (
             <div className="items-end">
               <Button
                 onClick={handleSubmit}
@@ -139,5 +141,3 @@ const Question = () => {
     </>
   );
 };
-
-export default Question;

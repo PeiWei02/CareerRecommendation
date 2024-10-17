@@ -2,5 +2,10 @@
     "prettier.runOnSave": true,
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.formatOnSave": true,
-    "notebook.defaultFormatter": "dbaeumer.vscode-eslint"
+    "notebook.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "notebook.formatOnSave.enabled": true,
+    "eslint.format.enable": true,
+    "editor.formatOnSaveMode": "modifications"
 }

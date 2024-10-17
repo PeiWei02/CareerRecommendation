@@ -6,11 +6,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Lottie from "lottie-react";
-import animationData from "../../assets/Holland's 6 Main Page.json";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import React from "react";
+import { holland6Asset } from "../asset";
 
-const Survey = () => {
+export const Holland6InformationScreen = () => {
   return (
     <div className="">
       <Card className="m-5 h-[85vh]">
@@ -28,7 +29,7 @@ const Survey = () => {
             interests, and skills.
           </CardDescription>
           <Lottie
-            animationData={animationData}
+            animationData={holland6Asset.holland6Landing}
             style={{ width: "30%", height: "30%" }}
           />
           <Link to="/holland6/question">
@@ -40,4 +41,3 @@ const Survey = () => {
   );
 };
 
-export default Survey;

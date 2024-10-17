@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./api/authentication/ProtectedRoute.jsx";
 import { Toaster } from "./components/ui/toaster.jsx";
@@ -6,9 +7,6 @@ import Login from "./pages/authentication/Login.jsx";
 import SignUp from "./pages/authentication/SignUp.jsx";
 import Landing from "./pages/landing/Landing.jsx";
 import Profile from "./pages/profile/Profile";
-import Survey from "./pages/survey/Survey.jsx";
-import Question from "./pages/survey/components/Question.jsx";
-import Result from "./pages/survey/components/Result.jsx";
 import CommingSoon from "./pages/commingSoon/CommingSoon.jsx";
 import Job from "./pages/job/Job.jsx";
 import { TheVarkQuestionnaireScreen } from "./modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx";
@@ -16,6 +14,9 @@ import { TheVarkResultScreen } from "./modules/theVark/view/screen/TheVarkResult
 import { SurveyLandingScreen } from "./modules/survey/view/screen/SurveyLandingScreen.jsx";
 import { MBTIQuestionnaireScreen } from "./modules/mbti/view/screen/MBTIQuestionnaireScreen.jsx";
 import { MBTIResultScreen } from "./modules/mbti/view/screen/MBTIResultScreen.jsx";
+import { Holland6QuestionnaireScreen } from "./modules/holland6/view/screen/Holland6QuestionnaireScreen.jsx";
+import { Holland6ResultScreen } from "./modules/holland6/view/screen/Holland6ResultScreen.jsx";
+import { Holland6InformationScreen } from "./modules/holland6/view/screen/Holland6InformationScreen.jsx";
 
 function App() {
   return (
@@ -34,15 +35,15 @@ function App() {
         />
         <Route
           path="/holland6"
-          element={<ProtectedRoute element={<Survey />} />}
+          element={<ProtectedRoute element={<Holland6InformationScreen />} />}
         />
         <Route
           path="/holland6/question"
-          element={<ProtectedRoute element={<Question />} />}
+          element={<ProtectedRoute element={<Holland6QuestionnaireScreen />} />}
         />
         <Route
           path="/holland6/result"
-          element={<ProtectedRoute element={<Result />} />}
+          element={<ProtectedRoute element={<Holland6ResultScreen />} />}
         />
         <Route
           path="/theVark"
