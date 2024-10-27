@@ -1,54 +1,81 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
-import PropTypes from "prop-types";
+import { Description } from '@/platform/pdf/view/component/Description';
+import { Divider } from '@/platform/pdf/view/component/Divider';
+import { Heading } from '@/platform/pdf/view/component/Heading';
+import { Section } from '@/platform/pdf/view/component/Section';
+import { Title } from '@/platform/pdf/view/component/Title';
+import { Document, Page, StyleSheet } from '@react-pdf/renderer';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
-  page: { padding: 30 },
-  section: { marginBottom: 10 },
-  title: { fontSize: 20, marginBottom: 10 },
-  text: { fontSize: 14, marginBottom: 5 },
+    page: { padding: 30, backgroundColor: '#010613' },
 });
 
-export const MBTIResultPDF = ({ results }) => {
-  return (
-    <Document>
-      {results.map((result, index) => (
-        <Page key={index} style={styles.page}>
-          <View style={styles.section}>
-            <Text style={styles.title}>Your MBTI Results</Text>
-            <Text style={styles.text}>You are a {result.name}!</Text>
-            <Text style={styles.text}>Description: {result.description}</Text>
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.title}>Cognitive Function</Text>
-            <Text style={styles.text}>{result.cognitiveFunction}</Text>
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.title}>Strengths</Text>
-            <Text style={styles.text}>{result.strengths}</Text>
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.title}>Weaknesses</Text>
-            <Text style={styles.text}>{result.weaknesses}</Text>
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.title}>Interaction</Text>
-            <Text style={styles.text}>{result.interaction}</Text>
-          </View>
-        </Page>
-      ))}
-    </Document>
-  );
+export const MBTIResultPDF = ({ MBTIresults }) => {
+    return (
+        <Document>
+            {MBTIresults.map((result, index) => (
+                <Page
+                    key={index}
+                    style={styles.page}
+                >
+                    <Section>
+                        <Title content="MBTI Result" />
+                    </Section>
+                    <Section>
+                        <Heading
+                            bulletNumber="01"
+                            content={`You are a ${result.name}`}
+                        />
+                        <Divider />
+                        <Description content={result.description} />
+                    </Section>
+                    <Section>
+                        <Heading
+                            bulletNumber="02"
+                            content="Cognitive Function"
+                        />
+                        <Divider />
+                        <Description content={result.cognitiveFunction} />
+                    </Section>
+                    <Section>
+                        <Heading
+                            bulletNumber="03"
+                            content="Strengths"
+                        />
+                        <Divider />
+                        <Description content={result.strengths} />
+                    </Section>
+                    <Section>
+                        <Heading
+                            bulletNumber="04"
+                            content="Weakness"
+                        />
+                        <Divider />
+                        <Description content={result.weaknesses} />
+                    </Section>
+                    <Section>
+                        <Heading
+                            bulletNumber="05"
+                            content="Interaction"
+                        />
+                        <Divider />
+                        <Description content={result.interaction} />
+                    </Section>
+                </Page>
+            ))}
+        </Document>
+    );
 };
 
 MBTIResultPDF.propTypes = {
-  results: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      cognitiveFunction: PropTypes.string.isRequired,
-      strengths: PropTypes.string.isRequired,
-      weaknesses: PropTypes.string.isRequired,
-      interaction: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+    MBTIresults: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            cognitiveFunction: PropTypes.string.isRequired,
+            strengths: PropTypes.string.isRequired,
+            weaknesses: PropTypes.string.isRequired,
+            interaction: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
 };

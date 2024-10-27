@@ -4,14 +4,14 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Lottie from "lottie-react";
-import loginJson from "../../../src/assets/authentication/login.json";
 import { login } from "@/api/authentication/login.js";
-import { useUser } from "@/lib/context/UserContext";
 import { useToast } from "@/components/ui/use-toast";
+import { authenticationAsset } from "../asset";
+import { useAuth } from "../../domain/useCase/useAuth";
 
-const Login = () => {
+export const LoginScreen = () => {
+  const { setUserID, userID } = useAuth();
   const { toast } = useToast();
-  const { userDetails, setUserDetails } = useUser();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -50,9 +50,8 @@ const Login = () => {
       setIsLoading(true);
       try {
         const data = await login(formData.email, formData.password);
-        // console.log("Login successful", data);
-        setUserDetails(data.User);
-        // console.log("userDetails", userDetails);
+        setUserID(data.User._id);
+        console.log(userID);
         navigate("/");
         toast({
           title: "Success!",
@@ -105,7 +104,7 @@ const Login = () => {
           </div>
           <div className="flex justify-center items-center">
             <Lottie
-              animationData={loginJson}
+              animationData={authenticationAsset.login}
               style={{ width: "80%", height: "80%" }}
             />
           </div>
@@ -166,5 +165,3 @@ const Login = () => {
     </>
   );
 };
-
-export default Login;

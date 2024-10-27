@@ -1,4 +1,3 @@
-import { signOut } from "@/api/authentication/signOut.js";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,36 +14,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useUser } from "@/lib/context/UserContext";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CountryCitySetting from "./components/CountryCitySetting";
-import BioImageSetting from "./components/BioImageSetting";
-import EmailPasswordPhoneSetting from "./components/EmailPasswordPhoneSetting";
+// import CountryCitySetting from "./components/CountryCitySetting";
+// import BioImageSetting from "./components/BioImageSetting";
+// import EmailPasswordPhoneSetting from "./components/EmailPasswordPhoneSetting";
+import React from "react";
+import { useAuth } from "@/modules/authentication/domain/useCase/useAuth";
+import { signOut } from "@/api/authentication/signOut";
 
 const Profile = () => {
-  const { userDetails } = useUser();
-  const [selectedUserDetails, setSelectedUserDetails] = useState(null);
+  const { signOut1 } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setSelectedUserDetails(userDetails);
-    console.log("selectedUserDetails", selectedUserDetails);
-    // console.log("userDetails", userDetails);
-  });
-  console.log("userDetails", userDetails);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       const data = await signOut();
-      console.log("Signout successful", data);
+      signOut1();
       navigate("/login");
     } catch (error) {
-      console.error("Error signing out", error);
+      console.error("Error sign out", error);
     } finally {
       setIsLoading(false);
     }
@@ -65,9 +58,9 @@ const Profile = () => {
               </AspectRatio>
             </CardHeader>
             <CardFooter className="flex-col items-start">
-              <CardTitle>{userDetails.name}</CardTitle>
+              <CardTitle>name</CardTitle>
               <CardDescription className="max-w-lg text-balance leading-relaxed">
-                {userDetails.bio}
+                bio
               </CardDescription>
             </CardFooter>
           </Card>
@@ -80,13 +73,12 @@ const Profile = () => {
 
             <CardFooter className="flex-col ">
               <div className="w-full h-full">
-                <EmailPasswordPhoneSetting />
-
                 {/* <EmailPasswordPhoneSetting /> */}
 
+                {/* 
                 <BioImageSetting />
 
-                <CountryCitySetting />
+                <CountryCitySetting /> */}
 
                 <Dialog className="w-full">
                   <DialogTrigger className="w-full ">

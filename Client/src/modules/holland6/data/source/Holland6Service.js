@@ -1,11 +1,12 @@
+import { useLoggedUserId } from "@/modules/authentication/domain/useCase/useLoggedUserID";
 import axios from "axios";
 
 export const Holland6Service = async (Json) => {
-  const id = "66530595dc9749f53177b1f5";
+  const userId = useLoggedUserId()
 
   try {
     const response = await axios.post(
-      `http://localhost:3000/survey/${id}/holland6Result`,
+      `http://localhost:3000/survey/${userId}/holland6Result`,
       Json,
       { withCredentials: true }
     );
