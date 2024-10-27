@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Lottie from "lottie-react";
-import signupJson from "../../../src/assets/authentication/signup.json";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { City, Country } from "country-state-city";
 import { signUp } from "@/api/authentication/signUp";
+import React from "react";
 // import Select from "react-select";
 import {
   Select,
@@ -20,8 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import { authenticationAsset } from "../asset";
 
-const SignUp = () => {
+export const SignUpScreen = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
@@ -181,7 +182,7 @@ const SignUp = () => {
           </div>
           <div className="flex justify-center items-center">
             <Lottie
-              animationData={signupJson}
+              animationData={authenticationAsset.signup}
               style={{ width: "80%", height: "80%" }}
             />
           </div>
@@ -366,5 +367,3 @@ const SignUp = () => {
     </>
   );
 };
-
-export default SignUp;
