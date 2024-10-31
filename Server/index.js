@@ -1,13 +1,14 @@
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { DBConnection } from "./config/db.js";
+import adminRouter from "./routes/admin.js";
 import jobRouter from "./routes/job.js";
 import profileRouter from "./routes/profile.js";
 import surveryRouter from "./routes/survey.js";
 import authRouter from "./routes/user.js";
-import cors from "cors";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
 app.use("/job", jobRouter);
 app.use("/survey", surveryRouter);
+app.use("/admin", adminRouter);
 
 DBConnection();
 app.listen(PORT, () => {
