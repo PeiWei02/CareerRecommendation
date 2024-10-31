@@ -1,10 +1,10 @@
 import express from "express";
 import {
+  createJobs,
+  deleteJob,
   getJob,
   getJobs,
-  createJobs,
   updateJob,
-  deleteJob,
 } from "../controllers/job.js";
 import { checkToken } from "../middlewares/middlewares.js";
 

@@ -50,9 +50,7 @@ export const MBTIQuestionnaireScreen = () => {
 
     const submitAnswer = async (answers) => {
         try {
-            console.log(answers);
             const data = await MBTIService(answers);
-            console.log('data', data);
             const highest = data.highest;
             navigate('/mbti/result', { state: { highest: highest } });
         } catch (error) {

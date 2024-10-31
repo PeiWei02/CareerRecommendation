@@ -1,15 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const isAuthenticate = async () => {
-  try {
-    const response = await axios.post(
-      "http://localhost:3000/auth/checkAuth",
-      {},
-      { withCredentials: true }
-    );
-    return true;
-  } catch (error) {
-      console.error("Error:",  error)
-    return false;
-  }
+    try {
+        await axios.post('http://localhost:3000/auth/checkAuth');
+        return true;
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
 };

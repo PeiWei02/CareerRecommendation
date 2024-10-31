@@ -162,12 +162,12 @@ export const checkAuth = async (req, res) => {
     const cookies = req.headers.cookie;
 
     if (!cookies) {
-      return res.status(403).json({ message: "Login first" });
+      return res.status(200).json({ message: "Login first" });
     }
     const token = cookies.split("=")[1];
 
     if (!token) {
-      return res.status(403).json({ message: "Token not found" });
+      return res.status(200).json({ message: "Token not found" });
     } else {
       const decode = jsonwebtoken.verify(token, process.env.JWTAUTHSECRET);
       req.userId = decode.id;

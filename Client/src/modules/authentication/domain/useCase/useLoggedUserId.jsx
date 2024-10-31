@@ -1,4 +1,4 @@
 export const useLoggedUserId = () => {
-  const userId = localStorage.getItem("userID");
-  return userId;
+    const userId = localStorage.getItem('userID');
+    return userId;
 };
