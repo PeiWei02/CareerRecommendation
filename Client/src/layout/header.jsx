@@ -48,7 +48,7 @@ const Header = () => {
                 Analytics
             </Link>
             <Link
-                to="/adminUserManagement"
+                to="/userManagement"
                 className={buttonVariants({
                     size: 'sm',
                     variant: 'ghost',
