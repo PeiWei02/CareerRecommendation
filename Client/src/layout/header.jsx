@@ -54,7 +54,7 @@ const Header = () => {
                     variant: 'ghost',
                 })}
             >
-                User Mangement
+                User Management
             </Link>
             <Link
                 to="/adminJobListing"
