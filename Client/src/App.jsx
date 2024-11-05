@@ -12,6 +12,7 @@ import { MBTIResultScreen } from './modules/mbti/view/screen/MBTIResultScreen.js
 import { SurveyLandingScreen } from './modules/survey/view/screen/SurveyLandingScreen.jsx';
 import { TheVarkQuestionnaireScreen } from './modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx';
 import { TheVarkResultScreen } from './modules/theVark/view/screen/TheVarkResultScreen.jsx';
+import { UserManagementLandingScreen } from './modules/userManagement/view/screen/UserManagementLandingScreen.jsx';
 import CommingSoon from './pages/commingSoon/CommingSoon.jsx';
 import Job from './pages/job/Job.jsx';
 import Landing from './pages/landing/Landing.jsx';
@@ -87,6 +88,11 @@ function App() {
                 <Route
                     path="/job"
                     element={<ProtectedRoute element={<Job />} />}
+                />
+
+                <Route
+                    path="/userManagement"
+                    element={<ProtectedRoute element={<UserManagementLandingScreen />} />}
                 />
             </Routes>
         </>

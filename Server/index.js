@@ -9,6 +9,7 @@ import jobRouter from "./routes/job.js";
 import profileRouter from "./routes/profile.js";
 import surveryRouter from "./routes/survey.js";
 import authRouter from "./routes/user.js";
+import userManagementRouter from "./routes/userManagement.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use("/profile", profileRouter);
 app.use("/job", jobRouter);
 app.use("/survey", surveryRouter);
 app.use("/admin", adminRouter);
+app.use("/userManagement", userManagementRouter);
 
 DBConnection();
 app.listen(PORT, () => {
