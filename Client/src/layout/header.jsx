@@ -57,7 +57,7 @@ const Header = () => {
                 User Management
             </Link>
             <Link
-                to="/adminJobListing"
+                to="/jobManagement/createJob"
                 className={buttonVariants({
                     size: 'sm',
                     variant: 'ghost',

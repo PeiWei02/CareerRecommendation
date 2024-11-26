@@ -7,6 +7,9 @@ import { SignUpScreen } from './modules/authentication/view/screen/SignUpScreen.
 import { Holland6InformationScreen } from './modules/holland6/view/screen/Holland6InformationScreen.jsx';
 import { Holland6QuestionnaireScreen } from './modules/holland6/view/screen/Holland6QuestionnaireScreen.jsx';
 import { Holland6ResultScreen } from './modules/holland6/view/screen/Holland6ResultScreen.jsx';
+import { CreateJobScreen } from './modules/jobManagement/view/screen/CreateJobScreen.jsx';
+import { UpdateJobScreen } from './modules/jobManagement/view/screen/UpdateJobScreen.jsx';
+import { ViewJobScreen } from './modules/jobManagement/view/screen/ViewJobScreen.jsx';
 import { MBTIQuestionnaireScreen } from './modules/mbti/view/screen/MBTIQuestionnaireScreen.jsx';
 import { MBTIResultScreen } from './modules/mbti/view/screen/MBTIResultScreen.jsx';
 import { SurveyLandingScreen } from './modules/survey/view/screen/SurveyLandingScreen.jsx';
@@ -14,7 +17,6 @@ import { TheVarkQuestionnaireScreen } from './modules/theVark/view/screen/TheVar
 import { TheVarkResultScreen } from './modules/theVark/view/screen/TheVarkResultScreen.jsx';
 import { UserManagementLandingScreen } from './modules/userManagement/view/screen/UserManagementLandingScreen.jsx';
 import CommingSoon from './pages/commingSoon/CommingSoon.jsx';
-import Job from './pages/job/Job.jsx';
 import Landing from './pages/landing/Landing.jsx';
 import Profile from './pages/profile/Profile';
 
@@ -86,13 +88,23 @@ function App() {
                 />
 
                 <Route
-                    path="/job"
-                    element={<ProtectedRoute element={<Job />} />}
+                    path="/userManagement"
+                    element={<ProtectedRoute element={<UserManagementLandingScreen />} />}
                 />
 
                 <Route
-                    path="/userManagement"
-                    element={<ProtectedRoute element={<UserManagementLandingScreen />} />}
+                    path="/job"
+                    element={<ProtectedRoute element={<ViewJobScreen />} />}
+                />
+
+                <Route
+                    path="/jobManagement/createJob"
+                    element={<ProtectedRoute element={<CreateJobScreen />} />}
+                />
+
+                <Route
+                    path="/jobManagement/updateJob"
+                    element={<ProtectedRoute element={<UpdateJobScreen />} />}
                 />
             </Routes>
         </>
