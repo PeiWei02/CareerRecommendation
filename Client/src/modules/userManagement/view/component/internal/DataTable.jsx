@@ -87,7 +87,7 @@ export function DataTable({ columns, data, onRowClick }) {
 DataTable.propTypes = {
     columns: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.string.isRequired,
+            id: PropTypes.string,
             accessorFn: PropTypes.func,
             header: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
             cell: PropTypes.func,

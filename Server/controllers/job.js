@@ -12,7 +12,7 @@ export const getJob = async (req, res) => {
 
 export const getJobs = async (req, res) => {
   try {
-    const jobs = await Job.find({});
+    const jobs = await Job.find({}).sort({ updatedAt: -1 });
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: error.message });
