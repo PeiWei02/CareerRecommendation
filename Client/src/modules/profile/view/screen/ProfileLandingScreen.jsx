@@ -15,17 +15,15 @@ import { RoleContext } from '@/platform/role/entity/RoleContext';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserDetails } from '../../domain/useUserDetails';
 
 // 1. Get the userId then get the user details, make it destructured so only pass necessary details to the component
 // 2. Get the update user details service and make it share with other components(password service only expose to password)
 // 3. Pass the user details and update service to the component
 // 4. Maybe need to create a window reload to trigger re-rendering / use react-query to handle the re-rendering
 
-export async function ProfileLandingScreen() {
+export function ProfileLandingScreen() {
     const { logOut } = useContext(AuthContext);
-    const { data: userDetails, isLoading, isError } = useUserDetails();
-    // console.log(userDetails);
+    // const { data: userDetails, isLoading, isError } = useUserDetails();
     const navigate = useNavigate();
 
     const [isSignOutLoading, setIsSignOutLoading] = useState(false);
