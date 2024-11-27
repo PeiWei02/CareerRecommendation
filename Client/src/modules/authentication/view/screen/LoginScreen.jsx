@@ -8,11 +8,11 @@ import { RoleContext } from '@/platform/role/entity/RoleContext';
 import Lottie from 'lottie-react';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../domain/useCase/useAuth';
+import { AuthContext } from '../../domain/useCase/useAuth';
 import { authenticationAsset } from '../asset';
 
 export const LoginScreen = () => {
-    const { setUserID } = useAuth();
+    const { setUserID } = useContext(AuthContext);
     const { setIsAdmin } = useContext(RoleContext);
 
     const { toast } = useToast();

@@ -2,12 +2,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import Lottie from 'lottie-react';
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../domain/useCase/useAuth';
+import { AuthContext } from '../../domain/useCase/useAuth';
 import { authenticationAsset } from '../asset';
 
 export const ProtectedRoute = ({ element }) => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = useContext(AuthContext);
 
     if (isAuthenticated) {
         return element;
