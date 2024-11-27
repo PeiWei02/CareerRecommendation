@@ -1,3 +1,4 @@
+import { signOut } from '@/api/authentication/signOut';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -8,26 +9,33 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
+import { Screen } from '@/platform/customComponents/screen/Screen';
+import { RoleContext } from '@/platform/role/entity/RoleContext';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import CountryCitySetting from "./components/CountryCitySetting";
-// import BioImageSetting from "./components/BioImageSetting";
-// import EmailPasswordPhoneSetting from "./components/EmailPasswordPhoneSetting";
-import { signOut } from '@/api/authentication/signOut';
-import { useAuth } from '@/modules/authentication/domain/useCase/useAuth';
-import { RoleContext } from '@/platform/role/entity/RoleContext';
+import { useUserDetails } from '../../domain/useUserDetails';
 
-const Profile = () => {
-    const { logOut } = useAuth();
-    const { setIsAdmin } = useContext(RoleContext);
-    const [isLoading, setIsLoading] = useState(false);
+// 1. Get the userId then get the user details, make it destructured so only pass necessary details to the component
+// 2. Get the update user details service and make it share with other components(password service only expose to password)
+// 3. Pass the user details and update service to the component
+// 4. Maybe need to create a window reload to trigger re-rendering / use react-query to handle the re-rendering
+
+export async function ProfileLandingScreen() {
+    const { logOut } = useContext(AuthContext);
+    const { data: userDetails, isLoading, isError } = useUserDetails();
+    // console.log(userDetails);
     const navigate = useNavigate();
+
+    const [isSignOutLoading, setIsSignOutLoading] = useState(false);
+    const { setIsAdmin } = useContext(RoleContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
+        setIsSignOutLoading(true);
         try {
+            // TODO: remove duplicate logic to practice single source of truth
             await signOut();
             logOut();
             navigate('/login');
@@ -35,12 +43,12 @@ const Profile = () => {
             console.error('Error sign out', error);
         } finally {
             setIsAdmin(false);
-            setIsLoading(false);
+            setIsSignOutLoading(false);
         }
     };
 
     return (
-        <div className="p-5">
+        <Screen>
             <div className="grid grid-cols-12 gap-5">
                 <div className="col-span-4">
                     <Card
@@ -76,12 +84,11 @@ const Profile = () => {
 
                         <CardFooter className="flex-col ">
                             <div className="w-full h-full">
-                                {/* <EmailPasswordPhoneSetting /> */}
+                                {/* <EmailPasswordPhoneSetting userId={userId} /> */}
 
-                                {/* 
-                <BioImageSetting />
+                                {/* <BioImageSetting /> */}
 
-                <CountryCitySetting /> */}
+                                {/* <CountryCitySetting /> */}
 
                                 <Dialog className="w-full">
                                     <DialogTrigger className="w-full ">
@@ -119,7 +126,7 @@ const Profile = () => {
                                                 maintaining the confidentiality and integrity of your personal
                                                 information while providing you with the best possible personalized
                                                 recommendation experience. If you have any questions or concerns about
-                                                account privacy, please don't hesitate to contact our privacy team for
+                                                account privacy, please dont hesitate to contact our privacy team for
                                                 assistance.
                                             </DialogDescription>
                                         </DialogHeader>
@@ -160,17 +167,15 @@ const Profile = () => {
                                     variant="destructive"
                                     size="sm"
                                     className="mt-5"
-                                    disabled={isLoading}
+                                    disabled={isSignOutLoading}
                                 >
-                                    {isLoading ? 'Signing Out...' : 'Sign Out'}
+                                    {isSignOutLoading ? 'Signing Out...' : 'Sign Out'}
                                 </Button>
                             </div>
                         </CardFooter>
                     </Card>
                 </div>
             </div>
-        </div>
+        </Screen>
     );
-};
-
-export default Profile;
+}

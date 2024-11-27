@@ -19,5 +19,7 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "go.lintOnSave": "workspace"
+  "go.lintOnSave": "workspace",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true
 }

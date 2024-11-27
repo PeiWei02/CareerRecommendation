@@ -12,13 +12,13 @@ import { UpdateJobScreen } from './modules/jobManagement/view/screen/UpdateJobSc
 import { ViewJobScreen } from './modules/jobManagement/view/screen/ViewJobScreen.jsx';
 import { MBTIQuestionnaireScreen } from './modules/mbti/view/screen/MBTIQuestionnaireScreen.jsx';
 import { MBTIResultScreen } from './modules/mbti/view/screen/MBTIResultScreen.jsx';
+import { ProfileLandingScreen } from './modules/profile/view/screen/ProfileLandingScreen.jsx';
 import { SurveyLandingScreen } from './modules/survey/view/screen/SurveyLandingScreen.jsx';
 import { TheVarkQuestionnaireScreen } from './modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx';
 import { TheVarkResultScreen } from './modules/theVark/view/screen/TheVarkResultScreen.jsx';
 import { UserManagementLandingScreen } from './modules/userManagement/view/screen/UserManagementLandingScreen.jsx';
 import CommingSoon from './pages/commingSoon/CommingSoon.jsx';
 import Landing from './pages/landing/Landing.jsx';
-import Profile from './pages/profile/Profile';
 
 function App() {
     return (
@@ -79,7 +79,7 @@ function App() {
 
                 <Route
                     path="/profile"
-                    element={<ProtectedRoute element={<Profile />} />}
+                    element={<ProtectedRoute element={<ProfileLandingScreen />} />}
                 />
 
                 <Route
