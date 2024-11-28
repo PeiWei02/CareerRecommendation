@@ -1,15 +1,17 @@
 import axios from 'axios';
 
-export const checkAdminRole = async (userId) => {
+export const checkAdminRoleService = async (userId) => {
     if (!userId) {
         return false;
     }
 
     try {
         const response = await axios.post('http://localhost:3000/admin/checkAdminRole', { userId });
-
-        return response.data.isAdmin;
+        console.log('response', response);
+        const { admin } = response;
+        return { isAdmin: true, admin: admin };
     } catch (error) {
-        throw new Error(`Failed to check admin role: ${error.response ? error.response.data : error.message}`);
+        console.error('Error checking admin', error);
+        return { isAdmin: false, admin: null };
     }
 };

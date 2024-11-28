@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster.jsx';
-import Header from './layout/header.jsx';
+import { Header } from './layout/header.jsx';
 import { ProtectedRoute } from './modules/authentication/view/component/ProtectedRoute.jsx';
 import { LoginScreen } from './modules/authentication/view/screen/LoginScreen.jsx';
 import { SignUpScreen } from './modules/authentication/view/screen/SignUpScreen.jsx';

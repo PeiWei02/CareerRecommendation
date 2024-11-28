@@ -1,19 +1,16 @@
-import { login } from '@/api/authentication/login.js';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import { checkAdminRole } from '@/modules/admin/data/source/checkAdminRoleService';
-import { RoleContext } from '@/platform/role/entity/RoleContext';
 import Lottie from 'lottie-react';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginService } from '../../data/source/loginService';
 import { AuthContext } from '../../domain/useCase/useAuth';
 import { authenticationAsset } from '../asset';
 
 export const LoginScreen = () => {
-    const { setUserID } = useContext(AuthContext);
-    const { setIsAdmin } = useContext(RoleContext);
+    const { logIn } = useContext(AuthContext);
 
     const { toast } = useToast();
     const [formData, setFormData] = useState({
@@ -53,12 +50,8 @@ export const LoginScreen = () => {
         if (validate()) {
             setIsLoading(true);
             try {
-                const data = await login(formData.email, formData.password);
-                const userId = data.User._id;
-                setUserID(data.User._id);
-
-                const isLoggedAdmin = await checkAdminRole(userId);
-                setIsAdmin(isLoggedAdmin);
+                const data = await loginService(formData.email, formData.password);
+                logIn(data.User);
 
                 navigate('/');
                 toast({
@@ -158,7 +151,7 @@ export const LoginScreen = () => {
                         </form>
                         <Link to="/signup">
                             <p className="px-8 text-center text-sm text-muted-foreground">
-                                Don't have an account? Sign up here!
+                                Dont have an account? Sign up here!
                             </p>
                         </Link>
                     </div>

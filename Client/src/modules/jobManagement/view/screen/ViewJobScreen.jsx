@@ -1,17 +1,17 @@
-import { getAllJob } from '@/api/job/getAllJob';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
 import { Screen } from '@/platform/customComponents/screen/Screen';
-import { RoleContext } from '@/platform/role/entity/RoleContext';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllJobService } from '../../data/source/getAllJobService';
 import { JobManagementViewJobCardDetails } from '../component/JobManagementViewJobCardDetails';
 import { JobManagementViewJobCardItem } from '../component/JobManagementViewJobCardItem';
 
 export function ViewJobScreen() {
-    const { isAdmin } = useContext(RoleContext);
+    const { isAdmin } = useContext(AuthContext);
 
     const [allJob, setAllJob] = useState([]);
     const [selectedJob, setSelectedJob] = useState(null);
@@ -20,7 +20,7 @@ export function ViewJobScreen() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const Jobs = await getAllJob();
+                const Jobs = await getAllJobService();
                 setAllJob(Jobs.data);
 
                 setSelectedJob(Jobs.data[0]);

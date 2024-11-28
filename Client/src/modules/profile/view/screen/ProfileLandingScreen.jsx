@@ -1,4 +1,3 @@
-import { signOut } from '@/api/authentication/signOut';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -9,12 +8,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { logoutService } from '@/modules/authentication/data/source/logoutService';
 import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
 import { Screen } from '@/platform/customComponents/screen/Screen';
-import { RoleContext } from '@/platform/role/entity/RoleContext';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserDetails } from '../../domain/useUserDetails';
 
 // 1. Get the userId then get the user details, make it destructured so only pass necessary details to the component
 // 2. Get the update user details service and make it share with other components(password service only expose to password)
@@ -23,18 +23,18 @@ import { useNavigate } from 'react-router-dom';
 
 export function ProfileLandingScreen() {
     const { logOut } = useContext(AuthContext);
-    // const { data: userDetails, isLoading, isError } = useUserDetails();
+    const { data: userDetails, isLoading, isError } = useUserDetails();
     const navigate = useNavigate();
 
     const [isSignOutLoading, setIsSignOutLoading] = useState(false);
-    const { setIsAdmin } = useContext(RoleContext);
+    const { setIsAdmin } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSignOutLoading(true);
         try {
             // TODO: remove duplicate logic to practice single source of truth
-            await signOut();
+            await logoutService();
             logOut();
             navigate('/login');
         } catch (error) {

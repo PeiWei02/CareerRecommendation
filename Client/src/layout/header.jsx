@@ -1,10 +1,10 @@
 import { buttonVariants } from '@/components/ui/button';
-import { RoleContext } from '@/platform/role/entity/RoleContext';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
-    const { isAdmin } = useContext(RoleContext);
+export function Header() {
+    const { isAdmin } = useContext(AuthContext);
 
     const renderUserNavBarContent = () => (
         <>
@@ -109,6 +109,4 @@ const Header = () => {
             </div>
         </nav>
     );
-};
-
-export default Header;
+}

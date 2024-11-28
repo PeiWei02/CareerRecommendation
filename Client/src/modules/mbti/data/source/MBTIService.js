@@ -1,9 +1,11 @@
-import { useLoggedUserId } from '@/modules/authentication/domain/useCase/useLoggedUserID';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
 import axios from 'axios';
+import { useContext } from 'react';
 
 export const MBTIService = async (answers) => {
     const BASE_URL = `http://localhost:3000/survey`;
-    const userId = useLoggedUserId();
+    const { user } = useContext(AuthContext);
+    const { _id: userId } = user;
 
     try {
         const response = await axios.post(`${BASE_URL}/${userId}/mbtiResult`, answers, { withCredentials: true });
