@@ -16,6 +16,8 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserDetails } from '../../domain/useUserDetails';
+import { BioImageSetting } from '../component/BioImageSetting';
+import { CountryCitySetting } from '../component/CountryCitySetting';
 import { EmailPasswordPhoneSetting } from '../component/EmailPasswordPhoneSetting';
 
 // 1. Get the userId then get the user details, make it destructured so only pass necessary details to the component
@@ -94,9 +96,15 @@ export function ProfileLandingScreen() {
                                         refetch={refetch}
                                     />
 
-                                    {/* <BioImageSetting /> */}
+                                    <BioImageSetting
+                                        userDetails={userDetails}
+                                        refetch={refetch}
+                                    />
 
-                                    {/* <CountryCitySetting /> */}
+                                    <CountryCitySetting
+                                        userDetails={userDetails}
+                                        refetch={refetch}
+                                    />
 
                                     <Dialog className="w-full">
                                         <DialogTrigger className="w-full ">
