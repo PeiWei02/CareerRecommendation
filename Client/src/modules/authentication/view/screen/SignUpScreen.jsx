@@ -1,4 +1,3 @@
-import { signUp } from '@/api/authentication/signUp';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -19,6 +18,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useNavigate } from 'react-router-dom';
+import { signupService } from '../../data/source/signupService';
 import { authenticationAsset } from '../asset';
 
 export const SignUpScreen = () => {
@@ -124,7 +124,7 @@ export const SignUpScreen = () => {
                     bio: formData.bio,
                 };
 
-                const response = await signUp(requestBody);
+                const response = await signupService(requestBody);
                 navigate('/login');
                 toast({
                     title: 'Success!',

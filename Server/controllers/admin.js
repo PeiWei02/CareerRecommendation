@@ -11,7 +11,7 @@ export const checkAdminRole = async (req, res) => {
       return res.status(200).json({ isAdmin: false });
     }
 
-    return res.status(200).json({ isAdmin: user.role === "admin" });
+    return res.status(200).json({ isAdmin: user.role === "admin", admin });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error", error });

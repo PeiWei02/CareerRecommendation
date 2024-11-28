@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getAllJob = async () => {
+export const getAllJobService = async () => {
     try {
         const response = await axios.get('http://localhost:3000/job/', {
             withCredentials: true,
@@ -8,6 +8,7 @@ export const getAllJob = async () => {
 
         return response;
     } catch (error) {
+        console.error(error);
         throw error;
     }
 };

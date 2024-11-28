@@ -5,16 +5,13 @@ import App from './App.jsx';
 import './index.css';
 import { AuthProvider } from './modules/authentication/domain/useCase/useAuth.jsx';
 import { QueryProvider } from './platform/query/QueryProvider.jsx';
-import { RoleProvider } from './platform/role/provider/RoleContextProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <BrowserRouter>
             <QueryProvider>
                 <AuthProvider>
-                    <RoleProvider>
-                        <App />
-                    </RoleProvider>
+                    <App />
                 </AuthProvider>
             </QueryProvider>
         </BrowserRouter>
