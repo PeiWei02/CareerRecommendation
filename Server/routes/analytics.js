@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getAnalyticsOverview,
   getMostCommonHolland6Results,
   getMostCommonMbtiResults,
   getMostCommonVarkResults,
@@ -59,6 +60,13 @@ analyticsRouter.get(
   checkToken,
   checkRole(["admin"]),
   getSurveysCompletedByModuleAndMonth
+);
+
+analyticsRouter.get(
+  "/getAnalyticsOverview",
+  checkToken,
+  checkRole(["admin"]),
+  getAnalyticsOverview
 );
 
 export default analyticsRouter;
