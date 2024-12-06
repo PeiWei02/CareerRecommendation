@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster.jsx';
 import { Header } from './layout/header.jsx';
+import { AnalyticsLandingScreen } from './modules/analytics/view/screen/AnalyticsLandingScreen.jsx';
 import { ProtectedRoute } from './modules/authentication/view/component/ProtectedRoute.jsx';
 import { LoginScreen } from './modules/authentication/view/screen/LoginScreen.jsx';
 import { SignUpScreen } from './modules/authentication/view/screen/SignUpScreen.jsx';
@@ -105,6 +106,11 @@ function App() {
                 <Route
                     path="/jobManagement/updateJob"
                     element={<ProtectedRoute element={<UpdateJobScreen />} />}
+                />
+
+                <Route
+                    path="/analytics"
+                    element={<ProtectedRoute element={<AnalyticsLandingScreen />} />}
                 />
             </Routes>
         </>

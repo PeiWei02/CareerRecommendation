@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { DBConnection } from "./config/db.js";
 import adminRouter from "./routes/admin.js";
+import analyticsRouter from "./routes/analytics.js";
 import jobRouter from "./routes/job.js";
 import profileRouter from "./routes/profile.js";
 import surveryRouter from "./routes/survey.js";
@@ -39,6 +40,7 @@ app.use("/job", jobRouter);
 app.use("/survey", surveryRouter);
 app.use("/admin", adminRouter);
 app.use("/userManagement", userManagementRouter);
+app.use("/analytics", analyticsRouter);
 
 DBConnection();
 app.listen(PORT, () => {

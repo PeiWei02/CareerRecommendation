@@ -40,7 +40,7 @@ export function Header() {
     const renderAdminNavBarContent = () => (
         <>
             <Link
-                to="/adminAnalytics"
+                to="/analytics"
                 className={buttonVariants({
                     size: 'sm',
                 })}
