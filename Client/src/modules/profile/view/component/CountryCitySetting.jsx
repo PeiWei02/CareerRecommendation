@@ -164,5 +164,5 @@ CountryCitySetting.propTypes = {
         country: PropTypes.string,
         city: PropTypes.string,
     }).isRequired,
-    refetch: PropTypes.func.isRequired,
+    refetch: PropTypes.func,
 };

@@ -89,5 +89,5 @@ BioImageSetting.propTypes = {
         _id: PropTypes.string.isRequired,
         bio: PropTypes.string,
     }).isRequired,
-    refetch: PropTypes.func.isRequired,
+    refetch: PropTypes.func,
 };
