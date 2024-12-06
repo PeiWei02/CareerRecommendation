@@ -248,5 +248,5 @@ EmailPasswordPhoneSetting.propTypes = {
         email: PropTypes.string.isRequired,
         mobile: PropTypes.string.isRequired,
     }).isRequired,
-    refetch: PropTypes.func.isRequired,
+    refetch: PropTypes.func,
 };

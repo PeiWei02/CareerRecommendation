@@ -10,12 +10,14 @@ import {
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { UserManagementDeleteUserModal } from './UserManagementDeleteUserModal';
+import { UserManagementEditUserModal } from './UserManagementEditUserModal';
 
 export function UserManagementUserDetails({ open, onClose, item }) {
     const { _id, name, mobile, email, role, profilePicture, city, country, bio, survey, createdAt, updatedAt, __v } =
         item;
 
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     return (
         <Dialog
@@ -51,7 +53,20 @@ export function UserManagementUserDetails({ open, onClose, item }) {
                     <DialogDescription>version: {__v}</DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <Button variant="outline">Edit</Button>
+                    <Button
+                        variant="outline"
+                        onClick={() => setIsEditDialogOpen(true)}
+                    >
+                        Edit
+                    </Button>
+                    {isEditDialogOpen && (
+                        <UserManagementEditUserModal
+                            userDetails={item}
+                            open={isEditDialogOpen}
+                            onClose={() => setIsEditDialogOpen(false)}
+                        />
+                    )}
+
                     <Button
                         variant="destructive"
                         onClick={() => setIsAlertDialogOpen(true)}
