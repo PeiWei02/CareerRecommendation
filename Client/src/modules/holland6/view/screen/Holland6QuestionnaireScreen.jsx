@@ -1,11 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
-import { useState } from 'react';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import holland6Questionnaire from '../../data/entity/holland6Questionnaire.json';
 import { Holland6Service } from '../../data/source/Holland6Service';
 
 export const Holland6QuestionnaireScreen = () => {
+    const { user } = useContext(AuthContext);
+    const { _id: userId } = user;
+
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState({});
@@ -24,7 +28,7 @@ export const Holland6QuestionnaireScreen = () => {
         }
     };
 
-    const handlePreviousClick = (response) => {
+    const handlePreviousClick = () => {
         if (currentIndex < holland6Questionnaire.interests.length) {
             setCurrentIndex(currentIndex - 1);
         } else {
@@ -59,7 +63,7 @@ export const Holland6QuestionnaireScreen = () => {
         });
 
         try {
-            const data = await Holland6Service(holland6Result);
+            const data = await Holland6Service(holland6Result, userId);
             const highest = data.highest;
             navigate('/holland6/result', { state: { highest: highest } });
         } catch (error) {
