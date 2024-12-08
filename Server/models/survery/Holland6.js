@@ -13,6 +13,10 @@ const Holland6Schema = new Schema(
       type: String,
       require: true,
     },
+    highestCombination: {
+      type: String,
+      require: true,
+    },
     result: {
       type: Object,
       require: true,

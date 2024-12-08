@@ -9,6 +9,8 @@ const chartConfig = {
     I: { label: 'Investigative' },
     C: { label: 'Conventional' },
     S: { label: 'Social' },
+    A: { label: 'Artistic' },
+    E: { label: 'Enterprising' },
 };
 
 export function AnalyticsHolland6Top5Chart({ chartData }) {

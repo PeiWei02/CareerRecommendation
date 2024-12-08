@@ -6,68 +6,43 @@ export function RIASEC_Calculator(data) {
   const eAttributes = [5, 10, 16, 19, 29, 36, 42];
   const cAttributes = [6, 9, 15, 24, 25, 35, 38];
 
-  let rScore = 0;
-  let iScore = 0;
-  let aScore = 0;
-  let sScore = 0;
-  let eScore = 0;
-  let cScore = 0;
+  let scores = {
+    R: 0,
+    I: 0,
+    A: 0,
+    S: 0,
+    E: 0,
+    C: 0,
+  };
 
+  // Calculate scores
   for (const attribute in data.Hollan6_Result) {
-    if (rAttributes.includes(parseInt(attribute))) {
-      if (data.Hollan6_Result[attribute].like === 1) {
-        rScore++;
-        continue;
-      }
-    } else if (iAttributes.includes(parseInt(attribute))) {
-      if (data.Hollan6_Result[attribute].like === 1) {
-        iScore++;
-        continue;
-      }
-    } else if (aAttributes.includes(parseInt(attribute))) {
-      if (data.Hollan6_Result[attribute].like === 1) {
-        aScore++;
-        continue;
-      }
-    } else if (sAttributes.includes(parseInt(attribute))) {
-      if (data.Hollan6_Result[attribute].like === 1) {
-        sScore++;
-        continue;
-      }
-    } else if (eAttributes.includes(parseInt(attribute))) {
-      if (data.Hollan6_Result[attribute].like === 1) {
-        eScore++;
-        continue;
-      }
-    } else if (cAttributes.includes(parseInt(attribute))) {
-      if (data.Hollan6_Result[attribute].like === 1) {
-        cScore++;
-        continue;
-      }
+    const attrIndex = parseInt(attribute);
+    if (data.Hollan6_Result[attribute].like === 1) {
+      if (rAttributes.includes(attrIndex)) scores.R++;
+      else if (iAttributes.includes(attrIndex)) scores.I++;
+      else if (aAttributes.includes(attrIndex)) scores.A++;
+      else if (sAttributes.includes(attrIndex)) scores.S++;
+      else if (eAttributes.includes(attrIndex)) scores.E++;
+      else if (cAttributes.includes(attrIndex)) scores.C++;
     }
   }
 
-  const scores = {
-    R: rScore,
-    I: iScore,
-    A: aScore,
-    S: sScore,
-    E: eScore,
-    C: cScore,
-  };
+  // Sort scores to find the top 3
+  const sortedScores = Object.entries(scores)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 3);
 
-  const highestScore = Math.max(...Object.values(scores));
-  const highestType = Object.keys(scores).find(
-    (key) => scores[key] === highestScore
-  );
+  const topThreeKeys = sortedScores.map(([key]) => key);
+  const highestCombination = topThreeKeys.join("");
 
+  // Create output
   const output = {
-    highest: highestType,
+    highest: topThreeKeys[0],
+    highestCombination: highestCombination,
     result: scores,
   };
 
-  // const jsonOutput = JSON.stringify(output);
-  // return jsonOutput;
   return output;
 }
 
@@ -201,6 +176,3 @@ const json = {
     },
   },
 };
-
-// const result = RIASEC_Calculator(json);
-// console.log(result);

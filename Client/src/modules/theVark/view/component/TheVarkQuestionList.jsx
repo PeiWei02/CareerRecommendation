@@ -1,12 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { useState } from 'react';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import theVarkQuestionnaire from '../../data/entity/theVarkQuestionnaire.json';
 import { theVarkResultService } from '../../data/source/TheVarkResultService';
 
 export const TheVarkQuestionList = () => {
+    const { user } = useContext(AuthContext);
+    const { _id: userId } = user;
     const theVarkQuestions = theVarkQuestionnaire.theVarkQuestionnaire;
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
@@ -56,7 +59,7 @@ export const TheVarkQuestionList = () => {
 
     const submitAnswer = async (answers) => {
         try {
-            const data = await theVarkResultService(answers);
+            const data = await theVarkResultService(answers, userId);
             const highest = data.highest;
             navigate('/theVark/result', { state: { highest: highest } });
         } catch (error) {

@@ -14,6 +14,7 @@ import { ViewJobScreen } from './modules/jobManagement/view/screen/ViewJobScreen
 import { MBTIQuestionnaireScreen } from './modules/mbti/view/screen/MBTIQuestionnaireScreen.jsx';
 import { MBTIResultScreen } from './modules/mbti/view/screen/MBTIResultScreen.jsx';
 import { ProfileLandingScreen } from './modules/profile/view/screen/ProfileLandingScreen.jsx';
+import { SurveyAllCompletedScreen } from './modules/survey/view/screen/SurveyAllCompletedScreen.jsx';
 import { SurveyLandingScreen } from './modules/survey/view/screen/SurveyLandingScreen.jsx';
 import { TheVarkQuestionnaireScreen } from './modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx';
 import { TheVarkResultScreen } from './modules/theVark/view/screen/TheVarkResultScreen.jsx';
@@ -47,6 +48,10 @@ function App() {
                 <Route
                     path="/survey"
                     element={<ProtectedRoute element={<SurveyLandingScreen />} />}
+                />
+                <Route
+                    path="/survey/comprehensiveResult"
+                    element={<ProtectedRoute element={<SurveyAllCompletedScreen />} />}
                 />
                 <Route
                     path="/holland6"
