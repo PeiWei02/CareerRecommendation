@@ -1,3 +1,4 @@
+import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { useAnalyticsOverview } from '../../domain/useAnalyticsOverview';
 import { AnalyticsDomainCompletionChart } from '../component/AnalyticsDomainCompletionChart';
@@ -10,7 +11,11 @@ export function AnalyticsLandingScreen() {
     const { data, isSuccess, isFetching, isError } = useAnalyticsOverview();
 
     if (isFetching) {
-        return <Screen>Loading...</Screen>;
+        return (
+            <Screen>
+                <LoadingModal />
+            </Screen>
+        );
     }
 
     if (isError) {
