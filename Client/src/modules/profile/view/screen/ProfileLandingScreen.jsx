@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { logoutService } from '@/modules/authentication/data/source/logoutService';
 import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
+import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import PropTypes from 'prop-types';
@@ -31,7 +32,7 @@ export function ProfileLandingScreen() {
     const [isSignOutLoading, setIsSignOutLoading] = useState(false);
 
     //MARK: data
-    const { data: userDetails, isLoading, isError, isSuccess, refetch } = useUserDetails();
+    const { data: userDetails, isFetching, isError, isSuccess, refetch } = useUserDetails();
 
     //MARK: render
     const handleSubmit = async (e) => {
@@ -49,7 +50,12 @@ export function ProfileLandingScreen() {
         }
     };
 
-    if (isLoading) return <Screen>Loading...</Screen>;
+    if (isFetching)
+        return (
+            <Screen>
+                <LoadingModal />
+            </Screen>
+        );
 
     if (isError) return <Screen>Error...</Screen>;
 
