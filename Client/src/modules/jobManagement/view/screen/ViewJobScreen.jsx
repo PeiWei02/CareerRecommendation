@@ -8,7 +8,7 @@ import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAllJobs } from '../../data/domain/useAllJob';
+import { useAllJobs } from '../../domain/useCase/useAllJob';
 import { JobManagementViewJobCardDetails } from '../component/JobManagementViewJobCardDetails';
 import { JobManagementViewJobCardItem } from '../component/JobManagementViewJobCardItem';
 
