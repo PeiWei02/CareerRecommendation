@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
+import { DialogDescription } from '@radix-ui/react-dialog';
 import { AlertCircle } from 'lucide-react'; // Suggested icon for error
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -26,12 +27,11 @@ export function ErrorModal({
             }}
         >
             <DialogContent className="sm:max-w-[600px] md:max-w-[800px] bg-black text-white shadow-lg rounded-lg">
-                <div className="flex flex-col items-center justify-center space-y-6 p-6">
-                    <AlertCircle className="h-12 w-12 text-destructive" />
+                <div className="flex flex-col items-center justify-center space-y-3 p-6">
+                    <AlertCircle className="h-12 w-12 text-destructive animate-bounce" />
                     <div className="text-center">
-                        <p className="text-2xl font-bold">{title}</p>
-                        <p className="text-lg font-light mt-2">{description}</p>
-
+                        <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
+                        <DialogDescription className="text-lg font-light mt-2">{description}</DialogDescription>
                         <div className="flex pt-4 gap-x-3 justify-center">
                             <Button
                                 variant="outline"
