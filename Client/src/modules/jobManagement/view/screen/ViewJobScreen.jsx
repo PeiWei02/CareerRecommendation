@@ -27,9 +27,14 @@ export function ViewJobScreen() {
         setSearchQuery(e.target.value);
     };
 
+    const getFilteredJobsByRole = (jobs) => {
+        return jobs?.filter((job) => isAdmin || job.status === true);
+    };
+
     useEffect(() => {
         if (isSuccess && allJob.length > 0) {
-            setSelectedJob(allJob[0]);
+            const filteredJobsByRole = getFilteredJobsByRole(allJob);
+            setSelectedJob(filteredJobsByRole[0]);
         }
     }, [isSuccess, allJob]);
 
@@ -50,9 +55,7 @@ export function ViewJobScreen() {
     }
 
     if (isSuccess && allJob.length > 0) {
-        const filteredJobsByRole = allJob?.filter((job) => {
-            return isAdmin || job.status === true;
-        });
+        const filteredJobsByRole = getFilteredJobsByRole(allJob);
 
         const filteredJobs = searchQuery
             ? filteredJobsByRole.filter((job) => {

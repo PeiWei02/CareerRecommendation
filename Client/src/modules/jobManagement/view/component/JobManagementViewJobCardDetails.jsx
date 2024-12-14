@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Phone } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { Copy, Mail, Phone } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -9,8 +10,18 @@ import { JobManagementDeleteJobModal } from './JobManagementDeleteJobModal';
 export function JobManagementViewJobCardDetails(props) {
     const { job, isAdmin } = props;
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const { toast } = useToast();
 
     const getStatusClass = (status) => (status ? 'bg-green-300 text-green-800' : 'bg-gray-300 text-gray-800');
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        toast({
+            title: 'Copied!',
+            description: 'Content has been copied to clipboard.',
+            status: 'success',
+        });
+    };
 
     return (
         <div>
@@ -69,16 +80,36 @@ export function JobManagementViewJobCardDetails(props) {
                 <CardDescription className=" ">{job.salaryRange}</CardDescription>
                 <CardDescription className="mt-4 text-slate-300">Experience </CardDescription>
                 <CardDescription className=" ">{job.experience}</CardDescription>
-                <CardDescription className="mt-4 text-slate-300">Status </CardDescription>
-                <CardDescription className=" ">{job.status ? 'Active' : 'Inactive'}</CardDescription>
                 <CardDescription className="text-xl mt-4 text-slate-300">Intrested? Contact the HR!</CardDescription>
                 <CardDescription className="flex items-center mt-1">
-                    <Phone />
-                    <span className="ml-2">{job.contactNumber}</span>
+                    <a
+                        href={`tel:${job.contactNumber}`}
+                        className="flex items-center hover:underline"
+                    >
+                        <Phone />
+                        <span className="ml-2">{job.contactNumber}</span>
+                    </a>
+                    <button
+                        className="ml-4 text-slate-500 hover:text-slate-300"
+                        onClick={() => copyToClipboard(job.contactNumber)}
+                    >
+                        <Copy size={16} />
+                    </button>
                 </CardDescription>
                 <CardDescription className="flex items-center mt-1">
-                    <Mail />
-                    <span className="ml-2">{job.contactEmail}</span>
+                    <a
+                        href={`mailto:${job.contactEmail}`}
+                        className="flex items-center hover:underline"
+                    >
+                        <Mail />
+                        <span className="ml-2">{job.contactEmail}</span>
+                    </a>
+                    <button
+                        className="ml-4 text-slate-500 hover:text-slate-300"
+                        onClick={() => copyToClipboard(job.contactEmail)}
+                    >
+                        <Copy size={16} />
+                    </button>
                 </CardDescription>
             </CardFooter>
         </div>
