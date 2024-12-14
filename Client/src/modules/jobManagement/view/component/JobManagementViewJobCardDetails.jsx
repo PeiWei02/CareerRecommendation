@@ -10,6 +10,8 @@ export function JobManagementViewJobCardDetails(props) {
     const { job, isAdmin } = props;
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
+    const getStatusClass = (status) => (status ? 'bg-green-300 text-green-800' : 'bg-gray-300 text-gray-800');
+
     return (
         <div>
             <CardHeader>
@@ -20,8 +22,13 @@ export function JobManagementViewJobCardDetails(props) {
                             alt="Company logo"
                             className="w-[6rem] h-[6rem] mr-4 object-cover"
                         />
-                        <div>
+                        <div className="flex gap-x-4">
                             <CardTitle className="text-slate-100">{job.company}</CardTitle>
+                            <span
+                                className={`px-2 py-1 rounded-full text-sm font-medium ${getStatusClass(job.status)}`}
+                            >
+                                {job.status ? 'Active' : 'Inactive'}
+                            </span>
                         </div>
                     </div>
                     {isAdmin && (
@@ -55,9 +62,9 @@ export function JobManagementViewJobCardDetails(props) {
                 <CardDescription className="mt-2">Full Time</CardDescription>
                 <CardDescription className="mt-4 text-xl text-white">{job.jobName}</CardDescription>
                 <CardDescription className="mt-2 text-base text-slate-300">Job Description</CardDescription>
-                <CardDescription className="mt-1 ">{job.jobDescription}</CardDescription>
-                <CardDescription className="mt-2 text-slate-300">Job Qualitfication</CardDescription>
-                <CardDescription className="mt-1 ">{job.qualification}</CardDescription>
+                <CardDescription className="mt-1">{job.jobDescription}</CardDescription>
+                <CardDescription className="mt-2 text-slate-300">Job Qualification</CardDescription>
+                <CardDescription className="mt-1">{job.qualification}</CardDescription>
                 <CardDescription className="mt-4 text-slate-300">Salary</CardDescription>
                 <CardDescription className=" ">{job.salaryRange}</CardDescription>
                 <CardDescription className="mt-4 text-slate-300">Experience </CardDescription>

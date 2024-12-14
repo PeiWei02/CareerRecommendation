@@ -6,7 +6,7 @@ export const getAllJobService = async () => {
             withCredentials: true,
         });
 
-        return response;
+        return response.data;
     } catch (error) {
         console.error(error);
         throw error;
