@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-export const Holland6Service = async (Json, userId) => {
+export const Holland6Service = async (payload, userId) => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const URL = `${BASE_URL}/survey/${userId}/holland6Result`;
+
     try {
-        const response = await axios.post(`http://localhost:3000/survey/${userId}/holland6Result`, Json, {
+        const response = await axios.post(URL, payload, {
             withCredentials: true,
         });
         return response.data;
