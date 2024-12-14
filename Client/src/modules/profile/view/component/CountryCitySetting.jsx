@@ -1,4 +1,3 @@
-import { updateUserProfile } from '@/api/profile/updateUserProfile';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader } from '@/components/ui/card';
 import {
@@ -10,6 +9,7 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
+import { updateUserProfile } from '@/modules/profile/data/source/updateUserProfile';
 import { City, Country } from 'country-state-city';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';

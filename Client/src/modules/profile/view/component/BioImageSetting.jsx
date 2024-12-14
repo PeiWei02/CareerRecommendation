@@ -1,4 +1,3 @@
-import { updateUserProfile } from '@/api/profile/updateUserProfile';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader } from '@/components/ui/card';
 import {
@@ -12,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import { updateUserProfile } from '@/modules/profile/data/source/updateUserProfile';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
