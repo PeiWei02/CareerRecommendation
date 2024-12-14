@@ -1,7 +1,7 @@
 import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
-import { useAnalyticsOverview } from '../../domain/useAnalyticsOverview';
+import { useAnalyticsOverview } from '../../domain/useCase/useAnalyticsOverview';
 import { AnalyticsDomainCompletionChart } from '../component/AnalyticsDomainCompletionChart';
 import { AnalyticsHolland6Top5Chart } from '../component/AnalyticsHolland6Top5Chart';
 import { AnalyticsMBTITop5Chart } from '../component/AnalyticsMBTITop5Chart';
