@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Screen } from '@/platform/customComponents/screen/Screen';
+import Lottie from 'lottie-react';
 import { Link } from 'react-router-dom';
 import { useSurveyCompleted } from '../../domain/useSurveyCompleted';
 import { surveyAsset } from '../asset';
@@ -45,6 +46,10 @@ export function SurveyLandingScreen() {
                         <div className="col-span-3 flex flex-col justify-center items-center text-center rounded-lg">
                             {surveyCompleted ? (
                                 <div className="flex flex-col gap-y-4 px-10 items-center">
+                                    <Lottie
+                                        animationData={surveyAsset.Unlock}
+                                        style={{ width: '100%', height: '100%' }}
+                                    />
                                     <div className="text-lg font-semibold">
                                         Congratulaion on completed the surveys. You can now unlock your comprehensive
                                         report.
@@ -54,9 +59,15 @@ export function SurveyLandingScreen() {
                                     </Link>
                                 </div>
                             ) : (
-                                <p className="text-lg font-semibold">
-                                    Please complete all the surveys to unlock your comprehensive report.
-                                </p>
+                                <div className="flex flex-col gap-y-4 px-10 items-center">
+                                    <Lottie
+                                        animationData={surveyAsset.Lock}
+                                        style={{ width: '100%', height: '100%' }}
+                                    />
+                                    <p className="text-lg font-semibold">
+                                        Please complete all the surveys to unlock your comprehensive report.
+                                    </p>
+                                </div>
                             )}
                         </div>
                     </div>
