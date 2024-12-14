@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
+import { Screen } from '@/platform/customComponents/screen/Screen';
 import Lottie from 'lottie-react';
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
@@ -8,7 +10,15 @@ import { AuthContext } from '../../domain/useCase/useAuth';
 import { authenticationAsset } from '../asset';
 
 export const ProtectedRoute = ({ element }) => {
-    const { isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, loading } = useContext(AuthContext);
+
+    if (loading) {
+        return (
+            <Screen>
+                <LoadingModal />
+            </Screen>
+        );
+    }
 
     if (isAuthenticated) {
         return element;
