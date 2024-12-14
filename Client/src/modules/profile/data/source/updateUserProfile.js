@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-export const updateUserProfile = async (Userid, Json) => {
-    const id = Userid;
-    console.log(Userid);
-    console.log(Json);
+export const updateUserProfile = async (userId, payload) => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const URL = `${BASE_URL}/profile/${userId}/updateProfile`;
+
     try {
-        await axios.put(`http://localhost:3000/profile/${id}/updateProfile`, Json, {
+        await axios.put(URL, payload, {
             withCredentials: true,
         });
         return true;

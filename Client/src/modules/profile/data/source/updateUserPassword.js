@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-export const updateUserPassword = async (Userid, Json) => {
-    const id = Userid;
+export const updateUserPassword = async (userId, payload) => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const URL = `${BASE_URL}/profile/${userId}/updatePassword`;
 
     try {
-        const response = await axios.put(`http://localhost:3000/profile/${id}/updatePassword`, Json, {
+        const response = await axios.put(URL, payload, {
             withCredentials: true,
         });
         return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
+    } catch {
+        throw new Error('Failed to update user password. Please try again later.');
     }
 };

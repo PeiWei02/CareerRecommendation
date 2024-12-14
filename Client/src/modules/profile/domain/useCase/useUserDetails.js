@@ -1,7 +1,7 @@
 import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { useContext } from 'react';
-import { getProfile } from '../data/source/getProfile';
+import { getProfile } from '../../data/source/getProfile';
 
 export function useUserDetails() {
     const { user } = useContext(AuthContext);

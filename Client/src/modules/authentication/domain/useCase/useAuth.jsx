@@ -28,21 +28,27 @@ export const AuthProvider = ({ children }) => {
         const initializeAuth = async () => {
             setLoading(true);
 
-            //Maybe need to return True/False and the user details
-            //Set the user details in user, so that role also can get the id / isAdmin from the user
-            //so no need to call checkAdmin and the user value here is correct
-            const authResponse = await checkAuthService();
-            const { authStatus: isAuth, user: userData } = authResponse;
-            const { role } = userData;
-            if (isAuth) {
-                logIn(userData);
-                if (role === 'admin') {
-                    setIsAdmin(true);
+            try {
+                // Maybe need to return True/False and the user details
+                // Set the user details in user, so that role also can get the id / isAdmin from the user
+                // so no need to call checkAdmin and the user value here is correct
+                const authResponse = await checkAuthService();
+                const { authStatus: isAuth, user: userData } = authResponse;
+                const { role } = userData;
+
+                if (isAuth) {
+                    logIn(userData);
+                    if (role === 'admin') {
+                        setIsAdmin(true);
+                    }
+                } else {
+                    logOut();
                 }
-            } else {
+            } catch {
                 logOut();
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         initializeAuth();
