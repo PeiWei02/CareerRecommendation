@@ -7,6 +7,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { useUserDetails } from '@/modules/profile/domain/useCase/useUserDetails';
 import { BioImageSetting } from '@/modules/profile/view/component/BioImageSetting';
 import { CountryCitySetting } from '@/modules/profile/view/component/CountryCitySetting';
 import { EmailPasswordPhoneSetting } from '@/modules/profile/view/component/EmailPasswordPhoneSetting';
@@ -14,6 +15,8 @@ import PropTypes from 'prop-types';
 
 export function UserManagementEditUserModal(props) {
     const { userDetails, open, onClose } = props;
+    const { refetch } = useUserDetails();
+
     return (
         <AlertDialog
             open={open}
@@ -27,9 +30,18 @@ export function UserManagementEditUserModal(props) {
                         details and may affect their account settings. Please procceed with caution.
                     </AlertDialogDescription>
 
-                    <EmailPasswordPhoneSetting userDetails={userDetails} />
-                    <BioImageSetting userDetails={userDetails} />
-                    <CountryCitySetting userDetails={userDetails} />
+                    <EmailPasswordPhoneSetting
+                        userDetails={userDetails}
+                        refetch={refetch}
+                    />
+                    <BioImageSetting
+                        userDetails={userDetails}
+                        refetch={refetch}
+                    />
+                    <CountryCitySetting
+                        userDetails={userDetails}
+                        refetch={refetch}
+                    />
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel onClick={() => onClose()}>Close</AlertDialogCancel>

@@ -1,6 +1,8 @@
+import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
+import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
-import { useEffect, useState } from 'react';
-import { getAllUserService } from '../../data/source/getAllUserService';
+import { useState } from 'react';
+import { useAllUser } from '../../domain/useCase/useAllUser';
 import { DataTable } from '../component/internal/DataTable';
 import { UserManagementColumns } from '../component/internal/UserManagementColumns';
 import { UserManagementUserDetails } from '../component/UserMangementUserDetails';
@@ -8,17 +10,24 @@ import { UserManagementUserDetails } from '../component/UserMangementUserDetails
 export function UserManagementLandingScreen() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
-    const [userList, setUserList] = useState([]);
 
-    //TODO: Add modal to let it wait
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getAllUserService();
-            setUserList(data);
-        };
+    const { data, isError, isFetching } = useAllUser();
 
-        fetchData();
-    }, []);
+    if (isError) {
+        return (
+            <Screen>
+                <ErrorModal />
+            </Screen>
+        );
+    }
+
+    if (isFetching) {
+        return (
+            <Screen>
+                <LoadingModal />
+            </Screen>
+        );
+    }
 
     const handleOpenDialog = (item) => {
         setCurrentItem(item);
@@ -36,7 +45,7 @@ export function UserManagementLandingScreen() {
                 </div>
 
                 <DataTable
-                    data={userList}
+                    data={data}
                     columns={UserManagementColumns}
                     onRowClick={handleOpenDialog}
                 />

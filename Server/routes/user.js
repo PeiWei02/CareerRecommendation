@@ -14,6 +14,6 @@ authRouter.post("/signUp", signUp);
 authRouter.post("/login", login);
 authRouter.post("/logout", checkToken, logout);
 authRouter.post("/checkAuth", checkAuth);
-authRouter.get("/", checkToken, checkRole(["admin"]), getAllUsers);
+authRouter.get("/getAllUsers", checkToken, checkRole(["admin"]), getAllUsers);
 
 export default authRouter;
