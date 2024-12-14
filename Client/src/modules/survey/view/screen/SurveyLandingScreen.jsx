@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import Lottie from 'lottie-react';
 import { Link } from 'react-router-dom';
-import { useSurveyCompleted } from '../../domain/useSurveyCompleted';
+import { useSurveyCompleted } from '../../domain/useCase/useSurveyCompleted';
 import { surveyAsset } from '../asset';
 import { SurveyLandingListItem } from '../component/SurveyLandingListItem';
 
