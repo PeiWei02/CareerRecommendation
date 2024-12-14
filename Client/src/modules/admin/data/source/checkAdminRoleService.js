@@ -5,9 +5,11 @@ export const checkAdminRoleService = async (userId) => {
         return false;
     }
 
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const URL = `${BASE_URL}/admin/checkAdminRole`;
+
     try {
-        const response = await axios.post('http://localhost:3000/admin/checkAdminRole', { userId });
-        console.log('response', response);
+        const response = await axios.post(URL, { userId });
         const { admin } = response;
         return { isAdmin: true, admin: admin };
     } catch (error) {

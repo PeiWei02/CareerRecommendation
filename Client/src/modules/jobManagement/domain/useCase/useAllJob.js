@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAllJobService } from '../source/getAllJobService.js';
+import { getAllJobService } from '../../data/source/getAllJobService.js';
 
 export function useAllJobs() {
     return useQuery({

@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/job';
-
 export const updateJob = async (jobId, jobData) => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const URL = `${BASE_URL}/job/${jobId}/updateJob`;
+
     try {
-        const response = await axios.put(`${API_URL}/${jobId}/updateJob`, jobData, { withCredentials: true });
+        const response = await axios.put(URL, jobData, { withCredentials: true });
         return response.data;
-    } catch (error) {
-        console.error('Error updating job:', error);
-        throw error;
+    } catch {
+        throw new Error('Failed to update job. Please try again later.');
     }
 };

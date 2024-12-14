@@ -17,7 +17,7 @@ import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserDetails } from '../../domain/useUserDetails';
+import { useUserDetails } from '../../domain/useCase/useUserDetails';
 import { BioImageSetting } from '../component/BioImageSetting';
 import { CountryCitySetting } from '../component/CountryCitySetting';
 import { EmailPasswordPhoneSetting } from '../component/EmailPasswordPhoneSetting';

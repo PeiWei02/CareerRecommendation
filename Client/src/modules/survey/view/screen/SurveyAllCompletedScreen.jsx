@@ -1,7 +1,7 @@
 import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
-import { useComprehensiveReport } from '../../domain/useComprehensiveReport';
+import { useComprehensiveReport } from '../../domain/useCase/useComprehensiveReport';
 import { SurveyCareerListItem } from '../component/SurveyCareerListItem';
 
 export function SurveyAllCompletedScreen() {
