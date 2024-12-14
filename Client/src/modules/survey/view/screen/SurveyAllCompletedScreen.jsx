@@ -1,3 +1,4 @@
+import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { useComprehensiveReport } from '../../domain/useComprehensiveReport';
@@ -6,16 +7,20 @@ import { SurveyCareerListItem } from '../component/SurveyCareerListItem';
 export function SurveyAllCompletedScreen() {
     const { data, isError, isSuccess, isFetching } = useComprehensiveReport();
 
+    if (isError) {
+        return (
+            <Screen>
+                <ErrorModal />
+            </Screen>
+        );
+    }
+
     if (isFetching) {
         return (
             <Screen>
                 <LoadingModal />
             </Screen>
         );
-    }
-
-    if (isError) {
-        return <Screen>Error</Screen>;
     }
 
     if (isSuccess) {
