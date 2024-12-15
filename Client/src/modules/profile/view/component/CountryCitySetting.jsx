@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardHeader } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -11,6 +11,7 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { updateUserProfile } from '@/modules/profile/data/source/updateUserProfile';
 import { City, Country } from 'country-state-city';
+import { MapPin } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
@@ -123,8 +124,12 @@ export function CountryCitySetting({ userDetails, refetch }) {
         >
             <DialogTrigger className="w-full ">
                 <Card className=" mt-4 hover:bg-muted/70">
-                    <CardHeader className="justify-start items-start">
-                        <CardDescription>City & Country</CardDescription>
+                    <CardHeader className="flex flex-row items-center justify-start space-x-4">
+                        <MapPin className="h-8 w-8" />
+                        <div className="flex flex-col justify-start">
+                            <CardTitle className="flex justify-start text-base">City and Country</CardTitle>
+                            <CardDescription>Your World, Your Rules. Update your city and country!</CardDescription>
+                        </div>
                     </CardHeader>
                 </Card>
             </DialogTrigger>
