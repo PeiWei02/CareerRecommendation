@@ -7,6 +7,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import { Search } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -28,14 +29,15 @@ export function DataTable({ columns, data, onRowClick }) {
     });
 
     return (
-        <div className="space-y-2">
-            <div className="flex items-center py-2">
+        <div className="space-y-2 py-2">
+            <div className="flex items-center py-2 space-x-2">
                 <Input
-                    placeholder="Filter emails..."
+                    placeholder="Search by email"
                     value={table.getColumn('email')?.getFilterValue() || ''}
                     onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
                     className="max-w-sm"
                 />
+                <Search className="text-slate-500" />
             </div>
             <div className="rounded-md border">
                 <Table>

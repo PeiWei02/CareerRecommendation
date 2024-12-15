@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardHeader } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { updateUserPassword } from '@/modules/profile/data/source/updateUserPassword';
 import { updateUserProfile } from '@/modules/profile/data/source/updateUserProfile';
+import { Settings } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -223,14 +224,20 @@ export function EmailPasswordPhoneSetting({ userDetails, refetch }) {
         >
             <DialogTrigger className="w-full ">
                 <Card className=" mt-4 hover:bg-muted/70">
-                    <CardHeader className="justify-start items-start">
-                        <CardDescription>Email, Password & Phone Number</CardDescription>
+                    <CardHeader className="flex flex-row items-center justify-start  space-x-4">
+                        <Settings className="h-8 w-8" />
+                        <div className="flex flex-col justify-start">
+                            <CardTitle className="flex justify-start text-base">
+                                Email, Password & Phone Number
+                            </CardTitle>
+                            <CardDescription>Manage your credential to secure Your Account</CardDescription>
+                        </div>
                     </CardHeader>
                 </Card>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Update Email, Password & Phone Number</DialogTitle>
+                    <DialogTitle>Update Account Information</DialogTitle>
                     <DialogDescription>
                         {renderEmailSection()}
                         {renderPasswordSection()}

@@ -14,6 +14,7 @@ import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
+import { Info, Shield } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -87,8 +88,10 @@ export function ProfileLandingScreen() {
                                 </AspectRatio>
                             </CardHeader>
                             <CardFooter className="flex-col items-start">
-                                <CardTitle>name</CardTitle>
-                                <CardDescription className="max-w-lg text-balance leading-relaxed">bio</CardDescription>
+                                <CardTitle>{userDetails.name}</CardTitle>
+                                <CardDescription className="max-w-lg text-balance leading-relaxed">
+                                    {userDetails.bio}
+                                </CardDescription>
                             </CardFooter>
                         </Card>
                     </div>
@@ -97,8 +100,11 @@ export function ProfileLandingScreen() {
                             className="h-[85vh]"
                             x-chunk="dashboard-05-chunk-0"
                         >
-                            <CardHeader className="pb-3">
+                            <CardHeader className="pb-1">
                                 <CardTitle>Settings</CardTitle>
+                                <CardDescription>
+                                    Manage Your Preferences: Customize your account settings
+                                </CardDescription>
                             </CardHeader>
 
                             <CardFooter className="flex-col ">
@@ -121,14 +127,22 @@ export function ProfileLandingScreen() {
                                     <Dialog className="w-full">
                                         <DialogTrigger className="w-full ">
                                             <Card className=" mt-4 hover:bg-muted/70">
-                                                <CardHeader className="justify-start items-start">
-                                                    <CardDescription>Account Privacy</CardDescription>
+                                                <CardHeader className="flex flex-row items-center justify-start  space-x-4">
+                                                    <Shield className="h-8 w-8" />
+                                                    <div className="flex flex-col justify-start">
+                                                        <CardTitle className="flex justify-start text-base">
+                                                            Account Privacy
+                                                        </CardTitle>
+                                                        <CardDescription>
+                                                            Privacy, Simplified, Take control of your privacy settings
+                                                        </CardDescription>
+                                                    </div>
                                                 </CardHeader>
                                             </Card>
                                         </DialogTrigger>
                                         <DialogContent>
                                             <DialogHeader className="items-center">
-                                                <DialogTitle>Account Privacy</DialogTitle>
+                                                <DialogTitle>Privacy at a Glance</DialogTitle>
                                                 <DialogDescription className="text-justify">
                                                     At Personalized Recommendation Tools System, we deeply value your
                                                     privacy and are committed to protecting your personal information.
@@ -165,8 +179,16 @@ export function ProfileLandingScreen() {
                                     <Dialog className="w-full">
                                         <DialogTrigger className="w-full ">
                                             <Card className=" mt-4 hover:bg-muted/70">
-                                                <CardHeader className="justify-start items-start">
-                                                    <CardDescription>About us</CardDescription>
+                                                <CardHeader className="flex flex-row items-center justify-start  space-x-4">
+                                                    <Info className="h-8 w-8" />
+                                                    <div className="flex flex-col justify-start">
+                                                        <CardTitle className="flex justify-start text-base">
+                                                            About us
+                                                        </CardTitle>
+                                                        <CardDescription>
+                                                            Get to know the team behind the magic
+                                                        </CardDescription>
+                                                    </div>
                                                 </CardHeader>
                                             </Card>
                                         </DialogTrigger>

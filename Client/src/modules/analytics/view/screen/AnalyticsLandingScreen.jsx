@@ -32,11 +32,9 @@ export function AnalyticsLandingScreen() {
         return (
             <Screen>
                 <div className="flex flex-col space-y-4 p-8">
-                    <div className="flex items-start justify-between space-y-2">
-                        <div>
-                            <h2 className="text-2xl font-bold tracking-tight">Dashboard and Statistics</h2>
-                            <p className="text-muted-foreground">Here&apos;s an overview of user analytics</p>
-                        </div>
+                    <div>
+                        <h2 className="text-2xl font-bold tracking-tight">Dashboard and Statistics</h2>
+                        <p className="text-muted-foreground">Here&apos;s an overview of user analytics</p>
                     </div>
 
                     <div className="grid grid-rows-2 grid-cols-12 gap-2">

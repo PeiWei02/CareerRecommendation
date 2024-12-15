@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardHeader } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { updateUserProfile } from '@/modules/profile/data/source/updateUserProfile';
+import { Edit3 } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
@@ -53,14 +54,18 @@ export function BioImageSetting({ userDetails, refetch }) {
         >
             <DialogTrigger className="w-full ">
                 <Card className=" mt-4 hover:bg-muted/70">
-                    <CardHeader className="justify-start items-start">
-                        <CardDescription>Bio</CardDescription>
+                    <CardHeader className="flex flex-row items-center justify-start  space-x-4">
+                        <Edit3 className="h-8 w-8" />
+                        <div className="flex flex-col justify-start">
+                            <CardTitle className="flex justify-start text-base">Bio</CardTitle>
+                            <CardDescription>Craft the perfect bio that speaks for you!</CardDescription>
+                        </div>
                     </CardHeader>
                 </Card>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Update Bio</DialogTitle>
+                    <DialogTitle>Edit Your Bio</DialogTitle>
                     <DialogDescription>
                         <div className="grid w-full max-w-sm items-center gap-1.5">
                             <Label htmlFor="bio">Bio</Label>
