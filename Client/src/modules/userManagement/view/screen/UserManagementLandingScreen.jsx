@@ -55,6 +55,7 @@ export function UserManagementLandingScreen() {
                             setCurrentItem(null);
                         }}
                         item={currentItem}
+                        refetch
                     />
                 )}
             </div>

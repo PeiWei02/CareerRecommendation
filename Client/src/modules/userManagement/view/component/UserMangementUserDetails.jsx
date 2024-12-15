@@ -13,12 +13,10 @@ import { UserManagementDeleteUserModal } from './UserManagementDeleteUserModal';
 import { UserManagementEditUserModal } from './UserManagementEditUserModal';
 
 export function UserManagementUserDetails({ open, onClose, item }) {
-    const { _id, name, mobile, email, role, profilePicture, city, country, bio, survey, createdAt, updatedAt, __v } =
-        item;
+    const { _id, name, mobile, email, role, profilePicture, city, country, bio, survey, createdAt, updatedAt } = item;
 
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-
     return (
         <Dialog
             open={open}
@@ -27,32 +25,67 @@ export function UserManagementUserDetails({ open, onClose, item }) {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>User Details</DialogTitle>
-                    <DialogDescription>name: {name}</DialogDescription>
-                    <DialogDescription>id: {_id}</DialogDescription>
-                    <DialogDescription>mobile: {mobile}</DialogDescription>
-                    <DialogDescription>email: {email}</DialogDescription>
-                    <DialogDescription>role: {role}</DialogDescription>
-                    <DialogDescription>
-                        Profile Picture:{' '}
+                    <DialogDescription className="text-muted-foreground">
+                        View and manage the details of the selected user.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <div className="space-y-4">
+                    <div className="flex items-center space-x-4">
                         {profilePicture ? (
                             <img
                                 src={profilePicture}
                                 alt={`${name}'s profile`}
-                                style={{ width: '50px', height: '50px' }}
+                                className="w-16 h-16 rounded-full border"
                             />
                         ) : (
-                            'No picture available'
+                            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600">
+                                No Image
+                            </div>
                         )}
-                    </DialogDescription>
-                    <DialogDescription>city: {city}</DialogDescription>
-                    <DialogDescription>country: {country}</DialogDescription>
-                    <DialogDescription>bio: {bio}</DialogDescription>
-                    <DialogDescription>survey completed: {survey ? 'Yes' : 'No'}</DialogDescription>
-                    <DialogDescription>created at: {new Date(createdAt).toLocaleString()}</DialogDescription>
-                    <DialogDescription>updated at: {new Date(updatedAt).toLocaleString()}</DialogDescription>
-                    <DialogDescription>version: {__v}</DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
+                        <div>
+                            <p className="text-lg font-semibold">{name}</p>
+                            <p className="text-sm text-muted-foreground">{email}</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <DetailItem
+                            label="Mobile"
+                            value={mobile}
+                        />
+                        <DetailItem
+                            label="Role"
+                            value={role}
+                        />
+                        <DetailItem
+                            label="City"
+                            value={city}
+                        />
+                        <DetailItem
+                            label="Country"
+                            value={country}
+                        />
+                        <DetailItem
+                            label="Bio"
+                            value={bio || 'No bio available'}
+                        />
+                        <DetailItem
+                            label="Survey Completed"
+                            value={survey ? 'Yes' : 'No'}
+                        />
+                        <DetailItem
+                            label="Created At"
+                            value={new Date(createdAt).toLocaleString()}
+                        />
+                        <DetailItem
+                            label="Updated At"
+                            value={new Date(updatedAt).toLocaleString()}
+                        />
+                    </div>
+                </div>
+
+                <DialogFooter className="mt-6 flex justify-end space-x-4">
                     <Button
                         variant="outline"
                         onClick={() => setIsEditDialogOpen(true)}
@@ -86,6 +119,20 @@ export function UserManagementUserDetails({ open, onClose, item }) {
     );
 }
 
+function DetailItem({ label, value }) {
+    return (
+        <div>
+            <p className="text-sm font-medium text-muted-foreground">{label}</p>
+            <p className="text-base text-foreground">{value}</p>
+        </div>
+    );
+}
+
+DetailItem.propTypes = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+};
+
 UserManagementUserDetails.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -102,6 +149,5 @@ UserManagementUserDetails.propTypes = {
         survey: PropTypes.bool.isRequired,
         createdAt: PropTypes.string.isRequired,
         updatedAt: PropTypes.string.isRequired,
-        __v: PropTypes.number.isRequired,
     }).isRequired,
 };
