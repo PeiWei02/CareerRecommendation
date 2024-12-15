@@ -36,12 +36,10 @@ export function UserManagementLandingScreen() {
 
     return (
         <Screen>
-            <div className="h-full flex-1 flex-col space-y-4 p-8 md:flex">
-                <div className="flex items-start justify-between space-y-2">
-                    <div>
-                        <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
-                        <p className="text-muted-foreground">Here&apos;s a list of all the user!</p>
-                    </div>
+            <div className="flex-col px-8">
+                <div className="flex flex-col px-6">
+                    <h2 className="text-2xl font-bold tracking-tight">User Management</h2>
+                    <p className="text-muted-foreground">Manage all registered users below.</p>
                 </div>
 
                 <DataTable
