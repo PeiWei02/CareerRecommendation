@@ -122,6 +122,21 @@ const fetchJobDetails = async (jobCode, jobName) => {
   }
 };
 
+const generatePermutations = (codes) => {
+  const results = [];
+  const helper = (arr, prefix = "") => {
+    if (prefix.length === 3) {
+      results.push(prefix);
+      return;
+    }
+    for (let i = 0; i < arr.length; i++) {
+      helper(arr.slice(0, i).concat(arr.slice(i + 1)), prefix + arr[i]);
+    }
+  };
+  helper(codes);
+  return results;
+};
+
 export const createCompleteResult = async (req, res) => {
   const { id: userId } = req.params;
 
@@ -148,15 +163,72 @@ export const createCompleteResult = async (req, res) => {
         .json({ message: "MBTI results not found for the user." });
     }
 
-    // Fetch jobs suggested by Holland6
+    const TheVarkResult = await TheVark.findOne({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    console.log("TheVark Result:", TheVarkResult);
+
+    // Fetch jobs for the highest combination
     const holland6Jobs = await JobDetails.find({
       holland6InterestCode: holland6Result.highestCombination,
     }).lean();
+    console.log("Holland6 Jobs for highest combination:", holland6Jobs);
 
     const holland6SuggestedJobs = [];
-    for (const job of holland6Jobs) {
-      const jobDetails = await fetchJobDetails(job.jobCode, job.jobName);
-      if (jobDetails) holland6SuggestedJobs.push(jobDetails);
+
+    if (holland6Jobs.length === 0) {
+      // Generate alternative permutations
+      const alternatives = generatePermutations(
+        holland6Result.highestCombination.split("")
+      );
+      console.log("Generated alternatives:", alternatives);
+
+      for (const alternative of alternatives) {
+        const jobs = await JobDetails.find({
+          holland6InterestCode: alternative,
+        }).lean();
+
+        if (jobs.length > 0) {
+          console.log(`Jobs found for ${alternative}:`, jobs);
+
+          // Fetch job details in parallel
+          const jobDetailsPromises = jobs.map((job) =>
+            fetchJobDetails(job.jobCode, job.jobName)
+          );
+          const resolvedDetails = await Promise.all(
+            jobDetailsPromises.map((p) => p.catch(() => null)) // Catch individual errors
+          );
+
+          holland6SuggestedJobs.push(
+            ...resolvedDetails.filter((details) => details)
+          );
+
+          // break; // Stop searching once jobs are found
+        } else {
+          console.log(`No jobs found for ${alternative}, skipping...`);
+        }
+      }
+
+      // If no jobs are found for any combination
+      if (holland6SuggestedJobs.length === 0) {
+        console.log("No jobs found for any alternative.");
+        return res
+          .status(404)
+          .json({ message: "No jobs found for the user's Holland6 type." });
+      }
+    } else {
+      // Fetch job details for the initial combination
+      const jobDetailsPromises = holland6Jobs.map((job) =>
+        fetchJobDetails(job.jobCode, job.jobName)
+      );
+      const resolvedDetails = await Promise.all(
+        jobDetailsPromises.map((p) => p.catch(() => null)) // Catch individual errors
+      );
+
+      holland6SuggestedJobs.push(
+        ...resolvedDetails.filter((details) => details)
+      );
     }
 
     // Fetch jobs suggested by MBTI
@@ -183,6 +255,7 @@ export const createCompleteResult = async (req, res) => {
     res.status(200).json({
       holland6SuggestedJobs,
       mbtiSuggestedJobs,
+      TheVarkResult,
     });
   } catch (error) {
     console.error("Error creating complete result:", error.message);

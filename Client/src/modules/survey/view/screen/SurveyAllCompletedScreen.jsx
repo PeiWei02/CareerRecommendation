@@ -1,8 +1,10 @@
+import { theVarkResult } from '@/modules/theVark/data/entity/theVarkResult';
 import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { useComprehensiveReport } from '../../domain/useCase/useComprehensiveReport';
 import { SurveyCareerListItem } from '../component/SurveyCareerListItem';
+import { SurveyLearningListItem } from '../component/SurveyLearningListItem';
 
 export function SurveyAllCompletedScreen() {
     const { data, isError, isSuccess, isFetching } = useComprehensiveReport();
@@ -23,12 +25,10 @@ export function SurveyAllCompletedScreen() {
         );
     }
 
-    if (isSuccess) {
-        const renderSurveyListItem = (jobInfo) => {
-            return <SurveyCareerListItem jobInfo={jobInfo} />;
-        };
-
-        const { holland6SuggestedJobs, mbtiSuggestedJobs } = data;
+    if (isSuccess && data) {
+        const { holland6SuggestedJobs, mbtiSuggestedJobs, TheVarkResult } = data;
+        //TODO: put the mapping on the backend
+        const theVarkInfo = theVarkResult[TheVarkResult.highest];
 
         return (
             <Screen>
@@ -41,11 +41,34 @@ export function SurveyAllCompletedScreen() {
                     </div>
 
                     <div className="items-start">
-                        <h2 className="text-2xl font-bold tracking-tight pt-5">Holland 6 suggested jobs</h2>
-                        {holland6SuggestedJobs.map((jobInfo) => renderSurveyListItem(jobInfo))}
-
-                        <h2 className="text-2xl font-bold tracking-tight">MBTI suggested jobs:</h2>
-                        {mbtiSuggestedJobs.map((jobInfo) => renderSurveyListItem(jobInfo))}
+                        {holland6SuggestedJobs.length > 0 && (
+                            <>
+                                <h2 className="text-2xl font-bold tracking-tight pt-5">Holland 6 suggested jobs</h2>
+                                {holland6SuggestedJobs.map((jobInfo) => (
+                                    <SurveyCareerListItem
+                                        jobInfo={jobInfo}
+                                        key={jobInfo.id}
+                                    />
+                                ))}
+                            </>
+                        )}
+                        {mbtiSuggestedJobs.length > 0 && (
+                            <>
+                                <h2 className="text-2xl font-bold tracking-tight">MBTI suggested jobs:</h2>
+                                {mbtiSuggestedJobs.map((jobInfo) => (
+                                    <SurveyCareerListItem
+                                        jobInfo={jobInfo}
+                                        key={jobInfo.id}
+                                    />
+                                ))}
+                            </>
+                        )}
+                        {theVarkInfo && (
+                            <>
+                                <h2 className="text-2xl font-bold tracking-tight">The Vark suggested learning:</h2>
+                                <SurveyLearningListItem learningInfo={theVarkInfo} />
+                            </>
+                        )}
                     </div>
                 </div>
             </Screen>

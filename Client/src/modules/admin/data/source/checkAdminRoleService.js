@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const checkAdminRoleService = async (userId) => {
     if (!userId) {
-        return false;
+        return { isAdmin: false, admin: null };
     }
 
     const BASE_URL = import.meta.env.VITE_BASE_URL;
