@@ -15,7 +15,7 @@ export function SurveyLandingScreen() {
         return (
             <Screen>
                 <div className="flex flex-col space-y-4 p-8">
-                    <div className="flex flex-col items-start justify-between space-y-2">
+                    <div>
                         <h2 className="text-2xl font-bold tracking-tight">Explore Your Career Path Surveys</h2>
                         <p className="text-muted-foreground">
                             Take the First Step Towards Discovering Your Ideal Career Path!

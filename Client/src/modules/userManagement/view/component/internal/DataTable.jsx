@@ -29,7 +29,7 @@ export function DataTable({ columns, data, onRowClick }) {
     });
 
     return (
-        <div className="space-y-2 py-4 px-2">
+        <div className="space-y-2 py-2">
             <div className="flex items-center py-2 space-x-2">
                 <Input
                     placeholder="Search by email"

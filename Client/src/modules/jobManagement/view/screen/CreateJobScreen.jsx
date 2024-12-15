@@ -7,9 +7,9 @@ import { JobManagementCreateJobForm } from '../component/JobManagementCreateJobF
 export function CreateJobScreen() {
     return (
         <Screen>
-            <div className="space-y-4 px-8 ">
-                <div className="flex justify-between space-y-2 px-6">
-                    <div>
+            <div className="flex flex-col space-y-4 p-8 md:flex">
+                <div className="flex flex-row justify-between ">
+                    <div className="flex-col">
                         <h2 className="text-2xl font-bold tracking-tight">Job Management</h2>
                         <p className="text-muted-foreground">Create your new job here</p>
                     </div>

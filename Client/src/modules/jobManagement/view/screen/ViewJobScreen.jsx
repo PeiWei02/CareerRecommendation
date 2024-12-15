@@ -65,61 +65,63 @@ export function ViewJobScreen() {
 
         return (
             <Screen>
-                <div className="flex justify-between px-8">
-                    <div className="flex flex-col px-6">
-                        <h2 className="text-2xl font-bold tracking-tight">View Job</h2>
-                        <p className="text-muted-foreground">View new jobs here</p>
+                <div className="flex flex-col space-y-4 p-8 md:flex">
+                    <div className="flex flex-row justify-between ">
+                        <div className="flex-col">
+                            <h2 className="text-2xl font-bold tracking-tight">Explore Job Opportunities</h2>
+                            <p className="text-muted-foreground">Discover the latest job listings</p>
+                        </div>
+
+                        {isAdmin && (
+                            <Link to="/jobManagement/createJob">
+                                <Button variant="outline">Create New Job</Button>
+                            </Link>
+                        )}
                     </div>
 
-                    {isAdmin && (
-                        <Link to="/jobManagement/createJob">
-                            <Button variant="outline">Create New Job</Button>
-                        </Link>
-                    )}
-                </div>
+                    <Card className="my-5 mx-2 h-[75vh]">
+                        <CardHeader>
+                            <div className="grid grid-cols-12">
+                                <div className="col-span-4  justify-center border-r">
+                                    <CardTitle className="text-2xl  my-1">Jobs </CardTitle>
 
-                <Card className="my-5 mx-10 h-[75vh]">
-                    <CardHeader>
-                        <div className="grid grid-cols-12">
-                            <div className="col-span-4  justify-center border-r">
-                                <CardTitle className="text-2xl mx-2 my-1">Jobs </CardTitle>
+                                    <div className="flex p-2">
+                                        <Input
+                                            placeholder="Search Job"
+                                            value={searchQuery}
+                                            onChange={handleSearch}
+                                        ></Input>
+                                    </div>
 
-                                <div className="flex p-2">
-                                    <Input
-                                        placeholder="Search Job"
-                                        value={searchQuery}
-                                        onChange={handleSearch}
-                                    ></Input>
+                                    <ScrollArea className="h-[58vh] w-full ">
+                                        {filteredJobs.map((job, index) => (
+                                            <JobManagementViewJobCardItem
+                                                key={index}
+                                                job={job}
+                                                onSelect={() => handleJobSelect(job)} // Add an onSelect prop to JobBriefCard
+                                                isSelected={selectedJob === job} // Add an isSelected prop to JobBriefCard
+                                            />
+                                        ))}
+                                    </ScrollArea>
                                 </div>
 
-                                <ScrollArea className="h-[58vh] w-full ">
-                                    {filteredJobs.map((job, index) => (
-                                        <JobManagementViewJobCardItem
-                                            key={index}
-                                            job={job}
-                                            onSelect={() => handleJobSelect(job)} // Add an onSelect prop to JobBriefCard
-                                            isSelected={selectedJob === job} // Add an isSelected prop to JobBriefCard
-                                        />
-                                    ))}
-                                </ScrollArea>
+                                <div className="col-span-8 ">
+                                    <ScrollArea className="w-full h-[68vh] overflow-y-auto">
+                                        <div className="pr-5">
+                                            <CardTitle className="text-2xl mx-4 my-1">Job&apos;s Details</CardTitle>
+                                        </div>
+                                        {selectedJob && (
+                                            <JobManagementViewJobCardDetails
+                                                job={selectedJob}
+                                                isAdmin={isAdmin}
+                                            />
+                                        )}
+                                    </ScrollArea>
+                                </div>
                             </div>
-
-                            <div className="col-span-8 ">
-                                <ScrollArea className="w-full h-[68vh] overflow-y-auto">
-                                    <div className="pr-5">
-                                        <CardTitle className="text-2xl mx-4 my-1">Job&apos;s Details</CardTitle>
-                                    </div>
-                                    {selectedJob && (
-                                        <JobManagementViewJobCardDetails
-                                            job={selectedJob}
-                                            isAdmin={isAdmin}
-                                        />
-                                    )}
-                                </ScrollArea>
-                            </div>
-                        </div>
-                    </CardHeader>
-                </Card>
+                        </CardHeader>
+                    </Card>
+                </div>
             </Screen>
         );
     }

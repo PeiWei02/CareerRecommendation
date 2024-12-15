@@ -36,8 +36,8 @@ export function UserManagementLandingScreen() {
 
     return (
         <Screen>
-            <div className="flex-col px-8">
-                <div className="flex flex-col px-6">
+            <div className="flex flex-col space-y-4 p-8 md:flex">
+                <div className="flex-col">
                     <h2 className="text-2xl font-bold tracking-tight">User Management</h2>
                     <p className="text-muted-foreground">Manage all registered users below.</p>
                 </div>
