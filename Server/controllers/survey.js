@@ -72,11 +72,24 @@ export const checkSurveyCompleted = async (req, res) => {
       .sort({ createdAt: -1 })
       .lean();
 
-    if (holland6Result && MBTIResult && TheVarkResult) {
-      return res.status(200).json({ surveyCompleted: true });
-    }
+    const isHolland6Completed = !!holland6Result;
+    const isMBTICompleted = !!MBTIResult;
+    const isTheVarkCompleted = !!TheVarkResult;
 
-    return res.status(200).json({ surveyCompleted: false });
+    const totalTestCompleted = [
+      isHolland6Completed,
+      isMBTICompleted,
+      isTheVarkCompleted,
+    ].filter(Boolean).length;
+
+    return res.status(200).json({
+      testCompleted: {
+        isHolland6Completed,
+        isMBTICompleted,
+        isTheVarkCompleted,
+      },
+      totalTestCompleted,
+    });
   } catch (error) {
     console.error("Error in checkSurveyCompleted:", error);
     res.status(500).json({ message: "Internal server error" });

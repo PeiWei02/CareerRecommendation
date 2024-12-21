@@ -12,7 +12,8 @@ import { useState } from 'react';
 import { UserManagementDeleteUserModal } from './UserManagementDeleteUserModal';
 import { UserManagementEditUserModal } from './UserManagementEditUserModal';
 
-export function UserManagementUserDetails({ open, onClose, item }) {
+export function UserManagementUserDetails(props) {
+    const { open, onClose, item, refetch } = props;
     const { _id, name, mobile, email, role, profilePicture, city, country, bio, survey, createdAt, updatedAt } = item;
 
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
@@ -97,6 +98,7 @@ export function UserManagementUserDetails({ open, onClose, item }) {
                             userDetails={item}
                             open={isEditDialogOpen}
                             onClose={() => setIsEditDialogOpen(false)}
+                            refetch={refetch}
                         />
                     )}
 
@@ -150,4 +152,5 @@ UserManagementUserDetails.propTypes = {
         createdAt: PropTypes.string.isRequired,
         updatedAt: PropTypes.string.isRequired,
     }).isRequired,
+    refetch: PropTypes.func.isRequired,
 };
