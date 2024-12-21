@@ -1,7 +1,7 @@
 import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAllUser } from '../../domain/useCase/useAllUser';
 import { DataTable } from '../component/internal/DataTable';
 import { UserManagementColumns } from '../component/internal/UserManagementColumns';
@@ -11,7 +11,14 @@ export function UserManagementLandingScreen() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
 
-    const { data, isError, isFetching } = useAllUser();
+    const { data, isError, isFetching, refetch } = useAllUser();
+
+    useEffect(() => {
+        if (data && currentItem) {
+            const updatedItem = data.find((user) => user._id === currentItem._id);
+            setCurrentItem(updatedItem || currentItem);
+        }
+    }, [data, currentItem]);
 
     if (isError) {
         return (
@@ -55,7 +62,7 @@ export function UserManagementLandingScreen() {
                             setCurrentItem(null);
                         }}
                         item={currentItem}
-                        refetch
+                        refetch={refetch}
                     />
                 )}
             </div>

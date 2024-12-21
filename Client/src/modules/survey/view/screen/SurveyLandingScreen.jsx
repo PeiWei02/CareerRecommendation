@@ -10,7 +10,8 @@ export function SurveyLandingScreen() {
     const { data, isSuccess } = useSurveyCompleted();
 
     if (isSuccess) {
-        const { surveyCompleted } = data;
+        const { totalTestCompleted, testCompleted } = data;
+        const { isHolland6Completed, isMBTICompleted, isTheVarkCompleted } = testCompleted;
 
         return (
             <Screen>
@@ -28,23 +29,26 @@ export function SurveyLandingScreen() {
                                 description="Discover your career interests based on Holland's six personality types and find professions that align with your strengths."
                                 animation={surveyAsset.Holland6}
                                 link="/holland6"
+                                isCompleted={isHolland6Completed}
                             />
                             <SurveyLandingListItem
                                 title="The Vark"
                                 description="Understand your learning preferences with the VARK model to enhance your study or work productivity."
                                 animation={surveyAsset.TheVark}
                                 link="/theVark"
+                                isCompleted={isTheVarkCompleted}
                             />
                             <SurveyLandingListItem
                                 title="Myers-Briggs Type Indicator (MBTI)"
                                 description="Explore your personality type with the Myers-Briggs Type Indicator and unlock insights into your career and interpersonal strengths."
                                 animation={surveyAsset.MBTI}
                                 link="/mbti/question"
+                                isCompleted={isMBTICompleted}
                             />
                         </div>
 
                         <div className="col-span-3 flex flex-col justify-center items-center text-center rounded-lg">
-                            {surveyCompleted ? (
+                            {totalTestCompleted ? (
                                 <div className="flex flex-col gap-y-4 px-10 items-center">
                                     <Lottie
                                         animationData={surveyAsset.Unlock}

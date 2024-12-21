@@ -7,15 +7,13 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { useUserDetails } from '@/modules/profile/domain/useCase/useUserDetails';
 import { BioImageSetting } from '@/modules/profile/view/component/BioImageSetting';
 import { CountryCitySetting } from '@/modules/profile/view/component/CountryCitySetting';
 import { EmailPasswordPhoneSetting } from '@/modules/profile/view/component/EmailPasswordPhoneSetting';
 import PropTypes from 'prop-types';
 
 export function UserManagementEditUserModal(props) {
-    const { userDetails, open, onClose } = props;
-    const { refetch } = useUserDetails();
+    const { userDetails, open, onClose, refetch } = props;
 
     return (
         <AlertDialog
@@ -62,4 +60,5 @@ UserManagementEditUserModal.propTypes = {
     }).isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    refetch: PropTypes.func.isRequired,
 };
