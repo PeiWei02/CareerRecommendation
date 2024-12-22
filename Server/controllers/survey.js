@@ -76,11 +76,8 @@ export const checkSurveyCompleted = async (req, res) => {
     const isMBTICompleted = !!MBTIResult;
     const isTheVarkCompleted = !!TheVarkResult;
 
-    const totalTestCompleted = [
-      isHolland6Completed,
-      isMBTICompleted,
-      isTheVarkCompleted,
-    ].filter(Boolean).length;
+    const totalTestCompleted =
+      isHolland6Completed && isMBTICompleted && isTheVarkCompleted;
 
     return res.status(200).json({
       testCompleted: {
