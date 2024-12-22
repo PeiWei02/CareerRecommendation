@@ -12,6 +12,7 @@ export const signUp = async (req, res) => {
     role,
     profilePicture,
     city,
+    state,
     country,
     bio,
   } = req.body;
@@ -55,6 +56,7 @@ export const signUp = async (req, res) => {
       role: role,
       profilePicture,
       city,
+      state,
       country,
       bio,
     });

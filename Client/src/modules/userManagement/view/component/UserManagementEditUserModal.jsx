@@ -8,8 +8,8 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { BioImageSetting } from '@/modules/profile/view/component/BioImageSetting';
-import { CountryCitySetting } from '@/modules/profile/view/component/CountryCitySetting';
 import { EmailPasswordPhoneSetting } from '@/modules/profile/view/component/EmailPasswordPhoneSetting';
+import { LocationSetting } from '@/modules/profile/view/component/LocationSetting';
 import PropTypes from 'prop-types';
 
 export function UserManagementEditUserModal(props) {
@@ -36,7 +36,7 @@ export function UserManagementEditUserModal(props) {
                         userDetails={userDetails}
                         refetch={refetch}
                     />
-                    <CountryCitySetting
+                    <LocationSetting
                         userDetails={userDetails}
                         refetch={refetch}
                     />

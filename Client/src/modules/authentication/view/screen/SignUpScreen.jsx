@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import { City, Country } from 'country-state-city';
+import { City, Country, State } from 'country-state-city';
 import Lottie from 'lottie-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -26,6 +26,7 @@ export const SignUpScreen = () => {
     const navigate = useNavigate();
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState([]);
+    const [states, setStates] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,6 +35,8 @@ export const SignUpScreen = () => {
         mobileNumber: '',
         countryCode: '',
         countryName: '',
+        stateCode: '',
+        stateName: '',
         city: '',
         bio: '',
     });
@@ -41,7 +44,6 @@ export const SignUpScreen = () => {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        // Fetch and set countries on component mount
         const countryList = Country.getAllCountries().map((country) => ({
             label: country.name,
             value: country.isoCode,
@@ -50,9 +52,21 @@ export const SignUpScreen = () => {
     }, []);
 
     useEffect(() => {
-        // Fetch and set cities when countryCode changes
         if (formData.countryCode) {
-            const cityList = City.getCitiesOfCountry(formData.countryCode).map((city) => ({
+            const stateList = State.getStatesOfCountry(formData.countryCode).map((state) => ({
+                label: state.name,
+                value: state.isoCode,
+            }));
+            setStates(stateList);
+        } else {
+            setStates([]);
+            setFormData((prevData) => ({ ...prevData, stateCode: '', stateName: '', city: '' }));
+        }
+    }, [formData.countryCode]);
+
+    useEffect(() => {
+        if (formData.stateCode) {
+            const cityList = City.getCitiesOfState(formData.countryCode, formData.stateCode).map((city) => ({
                 label: city.name,
                 value: city.name,
             }));
@@ -61,7 +75,7 @@ export const SignUpScreen = () => {
             setCities([]);
             setFormData((prevData) => ({ ...prevData, city: '' }));
         }
-    }, [formData.countryCode]);
+    }, [formData.stateCode]);
 
     const handleCountryChange = (value) => {
         const selectedCountry = countries.find((country) => country.value === value);
@@ -70,7 +84,21 @@ export const SignUpScreen = () => {
                 ...prevData,
                 countryCode: selectedCountry.value,
                 countryName: selectedCountry.label,
-                city: '', // Reset city when country changes
+                stateCode: '',
+                stateName: '',
+                city: '',
+            }));
+        }
+    };
+
+    const handleStateChange = (value) => {
+        const selectedState = states.find((state) => state.value === value);
+        if (selectedState) {
+            setFormData((prevData) => ({
+                ...prevData,
+                stateCode: selectedState.value,
+                stateName: selectedState.label,
+                city: '',
             }));
         }
     };
@@ -80,7 +108,6 @@ export const SignUpScreen = () => {
             ...prevData,
             city: value,
         }));
-        console.log(formData);
     };
 
     const handleChange = (e) => {
@@ -101,6 +128,7 @@ export const SignUpScreen = () => {
         if (!formData.mobileNumber) newErrors.mobileNumber = 'Mobile number is required';
         if (!/^\d{10}$/.test(formData.mobileNumber)) newErrors.mobileNumber = 'Mobile number must be 10 digits';
         if (!formData.countryCode) newErrors.country = 'Country is required';
+        if (!formData.stateCode) newErrors.state = 'State is required';
         if (!formData.city) newErrors.city = 'City is required';
         if (!formData.bio) newErrors.bio = 'Bio is required';
 
@@ -120,11 +148,12 @@ export const SignUpScreen = () => {
                     password: formData.password,
                     profilePicture: '',
                     city: formData.city,
+                    state: formData.stateName,
                     country: formData.countryName,
                     bio: formData.bio,
                 };
 
-                const response = await signupService(requestBody);
+                await signupService(requestBody);
                 navigate('/login');
                 toast({
                     title: 'Success!',
@@ -285,6 +314,28 @@ export const SignUpScreen = () => {
                                         </SelectContent>
                                     </Select>
                                     {errors.country && <span className="text-red-500 text-sm">{errors.country}</span>}
+                                </div>
+
+                                <div className="mb-4 p-1">
+                                    <Select onValueChange={handleStateChange}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="State" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>State</SelectLabel>
+                                                {states.map((state) => (
+                                                    <SelectItem
+                                                        key={state.value}
+                                                        value={state.value}
+                                                    >
+                                                        {state.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    {errors.state && <span className="text-red-500 text-sm">{errors.state}</span>}
                                 </div>
 
                                 <div className="mb-4 p-1">

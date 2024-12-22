@@ -20,8 +20,8 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserDetails } from '../../domain/useCase/useUserDetails';
 import { BioImageSetting } from '../component/BioImageSetting';
-import { CountryCitySetting } from '../component/CountryCitySetting';
 import { EmailPasswordPhoneSetting } from '../component/EmailPasswordPhoneSetting';
+import { LocationSetting } from '../component/LocationSetting';
 
 // 1. Get the userId then get the user details, make it destructured so only pass necessary details to the component
 // 2. Get the update user details service and make it share with other components(password service only expose to password)
@@ -119,7 +119,7 @@ export function ProfileLandingScreen() {
                                         refetch={refetch}
                                     />
 
-                                    <CountryCitySetting
+                                    <LocationSetting
                                         userDetails={userDetails}
                                         refetch={refetch}
                                     />
