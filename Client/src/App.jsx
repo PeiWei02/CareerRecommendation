@@ -17,6 +17,7 @@ import { MBTIResultScreen } from './modules/mbti/view/screen/MBTIResultScreen.js
 import { ProfileLandingScreen } from './modules/profile/view/screen/ProfileLandingScreen.jsx';
 import { SurveyAllCompletedScreen } from './modules/survey/view/screen/SurveyAllCompletedScreen.jsx';
 import { SurveyLandingScreen } from './modules/survey/view/screen/SurveyLandingScreen.jsx';
+import { TheVarkInformationScreen } from './modules/theVark/view/screen/TheVarkInformationScreen.jsx';
 import { TheVarkQuestionnaireScreen } from './modules/theVark/view/screen/TheVarkQuestionnaireScreen.jsx';
 import { TheVarkResultScreen } from './modules/theVark/view/screen/TheVarkResultScreen.jsx';
 import { UserManagementLandingScreen } from './modules/userManagement/view/screen/UserManagementLandingScreen.jsx';
@@ -68,6 +69,10 @@ function App() {
                 />
                 <Route
                     path="/theVark"
+                    element={<ProtectedRoute element={<TheVarkInformationScreen />} />}
+                />
+                <Route
+                    path="/theVark/question"
                     element={<ProtectedRoute element={<TheVarkQuestionnaireScreen />} />}
                 />
                 <Route

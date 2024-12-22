@@ -124,6 +124,20 @@ export const getMBTIResults = async (req, res) => {
   }
 };
 
+export const getTheVarkResults = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const theVarkResults = await TheVark.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json(theVarkResults);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //TODO: Refactor this function and the complete result function
 const fetchJobDetails = async (jobCode, jobName) => {
   const url = `https://www.onetonline.org/link/summary/${jobCode}`;
