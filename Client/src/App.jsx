@@ -11,6 +11,7 @@ import { Holland6ResultScreen } from './modules/holland6/view/screen/Holland6Res
 import { CreateJobScreen } from './modules/jobManagement/view/screen/CreateJobScreen.jsx';
 import { UpdateJobScreen } from './modules/jobManagement/view/screen/UpdateJobScreen.jsx';
 import { ViewJobScreen } from './modules/jobManagement/view/screen/ViewJobScreen.jsx';
+import { MBTIInformationScreen } from './modules/mbti/view/screen/MBTIInformationScreen.jsx';
 import { MBTIQuestionnaireScreen } from './modules/mbti/view/screen/MBTIQuestionnaireScreen.jsx';
 import { MBTIResultScreen } from './modules/mbti/view/screen/MBTIResultScreen.jsx';
 import { ProfileLandingScreen } from './modules/profile/view/screen/ProfileLandingScreen.jsx';
@@ -74,10 +75,13 @@ function App() {
                     element={<ProtectedRoute element={<TheVarkResultScreen />} />}
                 />
                 <Route
+                    path="/mbti"
+                    element={<ProtectedRoute element={<MBTIInformationScreen />} />}
+                />
+                <Route
                     path="/mbti/question"
                     element={<ProtectedRoute element={<MBTIQuestionnaireScreen />} />}
                 />
-
                 <Route
                     path="/mbti/result"
                     element={<ProtectedRoute element={<MBTIResultScreen />} />}

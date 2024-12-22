@@ -110,6 +110,20 @@ export const getHolland6Results = async (req, res) => {
   }
 };
 
+export const getMBTIResults = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const MBTIResults = await MBTI.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json(MBTIResults);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //TODO: Refactor this function and the complete result function
 const fetchJobDetails = async (jobCode, jobName) => {
   const url = `https://www.onetonline.org/link/summary/${jobCode}`;

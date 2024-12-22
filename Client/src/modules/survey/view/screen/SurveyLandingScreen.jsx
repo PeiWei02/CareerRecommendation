@@ -42,7 +42,7 @@ export function SurveyLandingScreen() {
                                 title="Myers-Briggs Type Indicator (MBTI)"
                                 description="Explore your personality type with the Myers-Briggs Type Indicator and unlock insights into your career and interpersonal strengths."
                                 animation={surveyAsset.MBTI}
-                                link="/mbti/question"
+                                link="/mbti"
                                 isCompleted={isMBTICompleted}
                             />
                         </div>

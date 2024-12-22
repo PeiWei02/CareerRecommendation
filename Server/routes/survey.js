@@ -6,6 +6,7 @@ import {
   createMBTIResult,
   createTheVarkResult,
   getHolland6Results,
+  getMBTIResults,
 } from "../controllers/survey.js";
 import { checkToken } from "../middlewares/middlewares.js";
 
@@ -26,5 +27,7 @@ surveryRouter.post(
 surveryRouter.post("/:id/completeResult", checkToken, createCompleteResult);
 
 surveryRouter.get("/getHolland6Results/:id", checkToken, getHolland6Results);
+
+surveryRouter.get("/getMBTIResults/:id", checkToken, getMBTIResults);
 
 export default surveryRouter;
