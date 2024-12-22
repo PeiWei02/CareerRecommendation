@@ -96,6 +96,20 @@ export const checkSurveyCompleted = async (req, res) => {
   }
 };
 
+export const getHolland6Results = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const holland6Results = await Holland6.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json(holland6Results);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //TODO: Refactor this function and the complete result function
 const fetchJobDetails = async (jobCode, jobName) => {
   const url = `https://www.onetonline.org/link/summary/${jobCode}`;
