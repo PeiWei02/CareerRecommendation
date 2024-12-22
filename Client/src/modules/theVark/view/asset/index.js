@@ -1,11 +1,13 @@
-import auditory from './auditory.json'
-import visual from './visual.json'
-import readingWriting from './readingWriting.json'
-import kinesthetic from './kinesthetic'
+import auditory from './auditory.json';
+import kinesthetic from './kinesthetic';
+import readingWriting from './readingWriting.json';
+import theVarkLanding from './theVarkLanding.json';
+import visual from './visual.json';
 
-export const theVarkAsset = { 
+export const theVarkAsset = {
     auditory,
     visual,
     readingWriting,
-    kinesthetic
-} 
+    kinesthetic,
+    theVarkLanding,
+};

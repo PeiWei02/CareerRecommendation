@@ -76,11 +76,8 @@ export const checkSurveyCompleted = async (req, res) => {
     const isMBTICompleted = !!MBTIResult;
     const isTheVarkCompleted = !!TheVarkResult;
 
-    const totalTestCompleted = [
-      isHolland6Completed,
-      isMBTICompleted,
-      isTheVarkCompleted,
-    ].filter(Boolean).length;
+    const totalTestCompleted =
+      isHolland6Completed && isMBTICompleted && isTheVarkCompleted;
 
     return res.status(200).json({
       testCompleted: {
@@ -92,6 +89,48 @@ export const checkSurveyCompleted = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in checkSurveyCompleted:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getHolland6Results = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const holland6Results = await Holland6.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json(holland6Results);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getMBTIResults = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const MBTIResults = await MBTI.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json(MBTIResults);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getTheVarkResults = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const theVarkResults = await TheVark.find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return res.status(200).json(theVarkResults);
+  } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
 };
