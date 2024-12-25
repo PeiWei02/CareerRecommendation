@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Lottie from 'lottie-react';
@@ -8,12 +9,16 @@ import { mbtiResult } from '../../data/entity/mbti';
 import { mbtiPersonalityType } from '../../data/entity/mbtiPersonalityType';
 import { MBTIResultPDF } from '../component/MBTIResultPDF';
 
-export const MBTIResultScreen = () => {
+export function MBTIResultScreen() {
     const location = useLocation();
-    const { highest } = location.state || {};
+    const { highest } = location.state;
 
     if (!highest) {
-        return <div>No personality information found.</div>;
+        return (
+            <Screen>
+                <ErrorModal description="No personality information found. Please try again." />
+            </Screen>
+        );
     }
     const mbtiPersonalityInfo = mbtiPersonalityType[highest];
 
@@ -27,7 +32,7 @@ export const MBTIResultScreen = () => {
 
         return (
             <Card
-                className="m-5 w-[80vw]"
+                className="w-[80vw]"
                 key={index}
             >
                 <CardHeader>
@@ -71,11 +76,13 @@ export const MBTIResultScreen = () => {
 
     return (
         <Screen>
-            <div className="m-5">
-                <div className="px-5 text-2xl font-semibold leading-none tracking-tight">
-                    You are a {mbtiPersonalityInfo}
+            <div className="flex flex-col">
+                <div className="flex flex-col items-start pt-4 px-10 text-2xl font-semibold leading-none tracking-tight">
+                    <p className="text-center">You are a {mbtiPersonalityInfo}</p>
+                    <p className="text-primary font-bold text-4xl">{highest}</p>
                 </div>
-                {allResults}
+
+                <div className="flex flex-col items-center space-y-3 py-6">{allResults}</div>
                 <div className="flex items-end justify-end px-5 mt-5">
                     <Link to="/mbti/question">
                         <Button
@@ -98,4 +105,4 @@ export const MBTIResultScreen = () => {
             </div>
         </Screen>
     );
-};
+}
