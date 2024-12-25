@@ -1,16 +1,35 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
+import { Screen } from '@/platform/customComponents/screen/Screen';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Lottie from 'lottie-react';
 import { Link, useLocation } from 'react-router-dom';
 import { holland6Result } from '../../data/entity/holland6Result';
 import { Holland6ResultPDF } from '../component/Holland6ResultPDF';
 
-export const Holland6ResultScreen = () => {
+export function Holland6ResultScreen() {
     const location = useLocation();
     const { state } = location;
-    const { highest } = state || {};
+    const { highest } = state;
+
+    if (!highest) {
+        return (
+            <Screen>
+                <ErrorModal description="We couldn't retrieve your Holland 6 result. Please try again." />
+            </Screen>
+        );
+    }
+
     const selectedResult = holland6Result[highest];
+
+    if (!selectedResult) {
+        return (
+            <Screen>
+                <ErrorModal description="We couldn't find information for this Holland 6 interest. Please try again." />
+            </Screen>
+        );
+    }
 
     return (
         <div className="flex items-center justify-center">
@@ -72,4 +91,4 @@ export const Holland6ResultScreen = () => {
             </Card>
         </div>
     );
-};
+}
