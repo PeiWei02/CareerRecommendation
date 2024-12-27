@@ -18,9 +18,9 @@ export function SurveyCareerListItem({ jobInfo }) {
     ];
 
     return (
-        <Card className="w-full max-w-4xl mx-auto">
+        <Card className="w-full mx-auto px-10 py-4">
             <CardHeader>
-                <div className="flex items-center space-x-2">
+                <div className="flex space-x-2">
                     <Briefcase className="h-6 w-6" />
                     <CardTitle>{jobInfo.JobName}</CardTitle>
                 </div>
