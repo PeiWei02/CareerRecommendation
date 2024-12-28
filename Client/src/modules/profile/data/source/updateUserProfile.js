@@ -10,6 +10,6 @@ export const updateUserProfile = async (userId, payload) => {
         });
         return true;
     } catch {
-        return false;
+        throw new Error('Failed to update profile');
     }
 };

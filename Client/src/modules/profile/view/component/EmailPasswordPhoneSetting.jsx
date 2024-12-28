@@ -49,8 +49,8 @@ export function EmailPasswordPhoneSetting({ userDetails, refetch }) {
                     description: 'Email updated successfully.',
                     status: 'success',
                 });
+                refetch?.();
                 setOpen(false);
-                refetch();
             } catch {
                 toast({
                     title: 'Error',
@@ -184,6 +184,7 @@ export function EmailPasswordPhoneSetting({ userDetails, refetch }) {
                     description: 'Phone Number updated successfully.',
                     status: 'success',
                 });
+                refetch?.();
                 setOpen(false);
             } catch {
                 toast({
