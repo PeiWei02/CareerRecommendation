@@ -7,8 +7,10 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { ChevronRight } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { UserManagementDeleteUserModal } from './UserManagementDeleteUserModal';
 import { UserManagementEditUserModal } from './UserManagementEditUserModal';
 
@@ -71,10 +73,21 @@ export function UserManagementUserDetails(props) {
                             label="Bio"
                             value={bio || 'No bio available'}
                         />
-                        <DetailItem
-                            label="Survey Completed"
-                            value={survey ? 'Yes' : 'No'}
-                        />
+                        <div>
+                            <p className="text-sm font-medium text-muted-foreground">Survey Details </p>
+                            <Link
+                                to="/userManagement/individualAnalytics"
+                                state={{ _id, name }}
+                            >
+                                <Button
+                                    className="my-1"
+                                    variant="outline"
+                                >
+                                    Summary
+                                    <ChevronRight className="w-4 h-4 ml-1" />
+                                </Button>
+                            </Link>
+                        </div>
                         <DetailItem
                             label="Created At"
                             value={new Date(createdAt).toLocaleString()}
