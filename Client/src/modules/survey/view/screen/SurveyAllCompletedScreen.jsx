@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { AuthContext } from '@/modules/authentication/domain/useCase/useAuth';
 import { useUserDetails } from '@/modules/profile/domain/useCase/useUserDetails';
 import { theVarkResult } from '@/modules/theVark/data/entity/theVarkResult';
 import { ErrorModal } from '@/platform/customComponents/error/ErrorModal';
@@ -7,6 +8,7 @@ import { LoadingModal } from '@/platform/customComponents/loading/LoadingModal';
 import { Screen } from '@/platform/customComponents/screen/Screen';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Lottie from 'lottie-react';
+import { useContext } from 'react';
 import { useComprehensiveReport } from '../../domain/useCase/useComprehensiveReport';
 import { surveyAsset } from '../asset';
 import { SurveyAllCompletedPDF } from '../component/SurveyAllCompletedPDF';
@@ -14,7 +16,10 @@ import { SurveyCareerListItem } from '../component/SurveyCareerListItem';
 import { SurveyLearningListItem } from '../component/SurveyLearningListItem';
 
 export function SurveyAllCompletedScreen() {
-    const { data, isError, isSuccess, isFetching } = useComprehensiveReport();
+    const { user } = useContext(AuthContext);
+    const { _id: userId } = user;
+
+    const { data, isError, isSuccess, isFetching } = useComprehensiveReport(userId);
     const { data: userDetails } = useUserDetails();
 
     if (isError) {
