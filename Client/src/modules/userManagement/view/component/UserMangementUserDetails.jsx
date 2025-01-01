@@ -7,6 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { useImage } from '@/modules/profile/domain/useCase/useImage';
 import { ChevronRight } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -20,6 +21,9 @@ export function UserManagementUserDetails(props) {
 
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+    const { data: image } = useImage(profilePicture);
+
     return (
         <Dialog
             open={open}
@@ -35,11 +39,11 @@ export function UserManagementUserDetails(props) {
 
                 <div className="space-y-4">
                     <div className="flex items-center space-x-4">
-                        {profilePicture ? (
+                        {image ? (
                             <img
-                                src={profilePicture}
+                                src={`data:image/${image.contentType};base64,${image.data}`}
                                 alt={`${name}'s profile`}
-                                className="w-16 h-16 rounded-full border"
+                                className="w-16 h-16 rounded-full border object-cover"
                             />
                         ) : (
                             <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600">

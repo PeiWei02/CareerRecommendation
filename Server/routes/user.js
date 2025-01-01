@@ -1,4 +1,5 @@
 import express from "express";
+import multer from "multer";
 import {
   checkAuth,
   getAllUsers,
@@ -8,9 +9,10 @@ import {
 } from "../controllers/user.js";
 import { checkRole, checkToken } from "../middlewares/middlewares.js";
 
+const upload = multer({ storage: multer.memoryStorage() });
 const authRouter = express.Router();
 
-authRouter.post("/signUp", signUp);
+authRouter.post("/signUp", upload.single("profilePicture"), signUp);
 authRouter.post("/login", login);
 authRouter.post("/logout", checkToken, logout);
 authRouter.post("/checkAuth", checkAuth);
