@@ -17,7 +17,7 @@ import { UserManagementEditUserModal } from './UserManagementEditUserModal';
 
 export function UserManagementUserDetails(props) {
     const { open, onClose, item, refetch } = props;
-    const { _id, name, mobile, email, role, profilePicture, city, country, bio, survey, createdAt, updatedAt } = item;
+    const { _id, name, mobile, email, role, profilePicture, city, country, bio, createdAt, updatedAt } = item;
 
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);

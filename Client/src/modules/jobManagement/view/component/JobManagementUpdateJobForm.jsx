@@ -7,7 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
+import { useImage } from '@/modules/profile/domain/useCase/useImage';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ImagePlus } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -17,11 +19,17 @@ import { jobManagementFormSchema } from '../../data/entity/jobManagementFormSche
 import { updateJob } from '../../data/source/updateJobService';
 
 export function JobManagementUpdateJobForm({ job }) {
-    const { _id: jobId } = job;
+    const { _id: jobId, image: jobImage } = job;
     const navigate = useNavigate();
     const { toast } = useToast();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const { data: displayImage } = useImage(jobImage);
+    const [previewImage, setPreviewImage] = useState(
+        displayImage ? `data:image/${displayImage.contentType};base64,${displayImage.data}` : null,
+    );
+
     const formRefs = useRef({});
 
     const form = useForm({
@@ -32,13 +40,24 @@ export function JobManagementUpdateJobForm({ job }) {
     const onSubmit = async (values) => {
         setIsSubmitting(true);
         try {
-            await updateJob(jobId, values);
+            // Separate the `image` field and other job data
+            const jobData = { ...values };
+            let file = null;
+
+            // Check if the `image` field is a File or an existing ObjectId string
+            if (jobData.image instanceof FileList && jobData.image.length > 0) {
+                file = jobData.image[0]; // Extract the File object from the FileList
+            } else {
+                delete jobData.image; // No image to handle
+            }
+
+            await updateJob(jobId, jobData, file);
             navigate('/job');
 
             form.reset();
             toast({
                 title: 'Success!',
-                description: 'Job update successfully!',
+                description: 'Job updated successfully!',
                 status: 'success',
             });
         } catch (error) {
@@ -72,6 +91,17 @@ export function JobManagementUpdateJobForm({ job }) {
             });
 
             element.focus();
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -139,7 +169,6 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
                                                             <Input
                                                                 placeholder="e.g. Machine Learning Engineer"
-                                                                defaultValue={form.getValues('jobName')}
                                                                 {...form.register('jobName')}
                                                             />
                                                         </FormControl>
@@ -155,7 +184,6 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
                                                             <Input
                                                                 placeholder="e.g. Grab"
-                                                                defaultValue={form.getValues('company')}
                                                                 {...form.register('company')}
                                                             />
                                                         </FormControl>
@@ -171,8 +199,6 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
                                                             <Input
                                                                 placeholder="e.g. Petaling Jaya, Selangor, Malaysia"
-                                                                defaultValue={form.getValues('location')}
-                                                                {...field}
                                                                 {...form.register('location')}
                                                             />
                                                         </FormControl>
@@ -189,8 +215,6 @@ export function JobManagementUpdateJobForm({ job }) {
                                                             <Input
                                                                 type="email"
                                                                 placeholder="e.g. workatgrab@grab.com"
-                                                                defaultValue={form.getValues('contactEmail')}
-                                                                {...field}
                                                                 {...form.register('contactEmail')}
                                                             />
                                                         </FormControl>
@@ -206,8 +230,6 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
                                                             <Input
                                                                 placeholder="e.g. 03-899973524"
-                                                                defaultValue={form.getValues('contactNumber')}
-                                                                {...field}
                                                                 {...form.register('contactNumber')}
                                                             />
                                                         </FormControl>
@@ -229,9 +251,7 @@ export function JobManagementUpdateJobForm({ job }) {
                                                                 >
                                                                     <Textarea
                                                                         placeholder="Enter job description"
-                                                                        // defaultValue={form.getValues('jobDescription')}
                                                                         {...field}
-                                                                        {...form.register('jobDescription')}
                                                                     />
                                                                 </FormControl>
                                                             )}
@@ -252,8 +272,7 @@ export function JobManagementUpdateJobForm({ job }) {
                                                             render={({ field }) => (
                                                                 <Select
                                                                     onValueChange={field.onChange}
-                                                                    defaultValue={form.getValues('salaryRange')}
-                                                                    {...form.register('salaryRange')}
+                                                                    defaultValue={field.value}
                                                                 >
                                                                     <FormControl>
                                                                         <SelectTrigger
@@ -284,7 +303,6 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}
-
                                                 {field.name === 'status' && (
                                                     <FormItem className="flex items-center justify-between rounded-lg border p-4">
                                                         <div className="space-y-0.5">
@@ -295,11 +313,10 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         </div>
                                                         <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
                                                             <Switch
-                                                                checked={form.getValues('status')}
+                                                                checked={form.watch('status')}
                                                                 onCheckedChange={(value) =>
                                                                     form.setValue('status', value)
                                                                 }
-                                                                {...form.register('status')}
                                                             />
                                                         </FormControl>
                                                     </FormItem>
@@ -313,8 +330,7 @@ export function JobManagementUpdateJobForm({ job }) {
                                                             render={({ field }) => (
                                                                 <Select
                                                                     onValueChange={field.onChange}
-                                                                    defaultValue={form.getValues('experience')}
-                                                                    {...form.register('experience')}
+                                                                    defaultValue={field.value}
                                                                 >
                                                                     <FormControl>
                                                                         <SelectTrigger
@@ -351,31 +367,65 @@ export function JobManagementUpdateJobForm({ job }) {
                                                         <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
                                                             <Textarea
                                                                 placeholder="Enter required qualifications"
-                                                                // defaultValue={form.getValues('qualification')}
-                                                                {...field}
                                                                 {...form.register('qualification')}
                                                             />
                                                         </FormControl>
                                                         <FormDescription>
-                                                            Select the updated experience level required for this job.
+                                                            Update the qualifications needed for applicants to be
+                                                            considered.
                                                         </FormDescription>
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}
-                                                {field.name === 'picture' && (
+                                                {field.name === 'image' && (
                                                     <FormItem>
-                                                        <FormLabel>Picture URL</FormLabel>
-                                                        <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
-                                                            <Input
-                                                                placeholder="Enter URL for company logo or job image"
-                                                                defaultValue={form.getValues('picture')}
-                                                                {...field}
-                                                                {...form.register('picture')}
-                                                            />
+                                                        <FormLabel>Profile Image</FormLabel>
+                                                        <FormControl>
+                                                            <div className="flex items-center space-x-4">
+                                                                <Input
+                                                                    type="file"
+                                                                    accept="image/*"
+                                                                    onChange={(e) => {
+                                                                        form.setValue('image', e.target.files);
+                                                                        handleImageChange(e);
+                                                                    }}
+                                                                    className="hidden"
+                                                                    id="image-upload"
+                                                                />
+                                                                <label
+                                                                    htmlFor="image-upload"
+                                                                    className="flex items-center justify-center w-32 h-32 border-2 border-dashed rounded-lg cursor-pointer hover:border-gray-400 transition-colors"
+                                                                >
+                                                                    {previewImage ? (
+                                                                        <img
+                                                                            src={previewImage}
+                                                                            alt="Preview"
+                                                                            className="w-full h-full object-cover rounded-lg"
+                                                                        />
+                                                                    ) : (
+                                                                        <ImagePlus className="w-8 h-8 text-gray-400" />
+                                                                    )}
+                                                                </label>
+                                                                <div className="flex-1">
+                                                                    <Button
+                                                                        type="button"
+                                                                        variant="outline"
+                                                                        onClick={() =>
+                                                                            document
+                                                                                .getElementById('image-upload')
+                                                                                ?.click()
+                                                                        }
+                                                                        ref={(el) =>
+                                                                            (formRefs.current[field.name] = el)
+                                                                        }
+                                                                    >
+                                                                        Upload Image
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
                                                         </FormControl>
                                                         <FormDescription>
-                                                            Update the URL for the company logo or job-related image.
-                                                            (optional).
+                                                            Update the profile picture (max 5MB, .jpg, .png, or .webp)
                                                         </FormDescription>
                                                         <FormMessage />
                                                     </FormItem>
@@ -388,7 +438,7 @@ export function JobManagementUpdateJobForm({ job }) {
                                     type="submit"
                                     disabled={isSubmitting}
                                 >
-                                    {isSubmitting ? 'Submitting...' : 'Submit'}
+                                    {isSubmitting ? 'Updating...' : 'Update Job'}
                                 </Button>
                             </form>
                         </Form>
@@ -402,5 +452,17 @@ export function JobManagementUpdateJobForm({ job }) {
 JobManagementUpdateJobForm.propTypes = {
     job: PropTypes.shape({
         _id: PropTypes.string.isRequired,
+        jobName: PropTypes.string.isRequired,
+        company: PropTypes.string.isRequired,
+        location: PropTypes.string.isRequired,
+        contactEmail: PropTypes.string.isRequired,
+        contactNumber: PropTypes.string.isRequired,
+        jobDescription: PropTypes.string.isRequired,
+        salaryRange: PropTypes.string.isRequired,
+        status: PropTypes.bool.isRequired,
+        experience: PropTypes.string.isRequired,
+        qualification: PropTypes.string.isRequired,
+        picture: PropTypes.string,
+        image: PropTypes.string,
     }).isRequired,
 };

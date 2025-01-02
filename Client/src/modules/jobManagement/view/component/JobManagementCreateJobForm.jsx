@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ImagePlus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +18,7 @@ import { addJob } from '../../data/source/addJobService';
 
 export function JobManagementCreateJobForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
     const formRefs = useRef({});
     const { toast } = useToast();
     const navigate = useNavigate();
@@ -35,16 +37,22 @@ export function JobManagementCreateJobForm() {
             experience: '',
             qualification: '',
             picture: '',
+            image: null,
         },
     });
 
     const onSubmit = async (values) => {
         setIsSubmitting(true);
         try {
-            await addJob(values);
+            const jobData = { ...values };
+            const file = jobData.image?.[0] || null;
+            delete jobData.image;
+
+            await addJob(jobData, file);
             navigate('/job');
 
             form.reset();
+            setPreviewImage(null);
             toast({
                 title: 'Success!',
                 description: 'Job added successfully!',
@@ -83,6 +91,17 @@ export function JobManagementCreateJobForm() {
             });
 
             element.focus();
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -359,18 +378,55 @@ export function JobManagementCreateJobForm() {
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}
-                                                {field.name === 'picture' && (
+                                                {field.name === 'image' && (
                                                     <FormItem>
-                                                        <FormLabel>Picture URL</FormLabel>
-                                                        <FormControl ref={(el) => (formRefs.current[field.name] = el)}>
-                                                            <Input
-                                                                placeholder="Enter URL for company logo or job image"
-                                                                {...form.register('picture')}
-                                                            />
+                                                        <FormLabel>Company Logo</FormLabel>
+                                                        <FormControl>
+                                                            <div className="flex items-center space-x-4">
+                                                                <Input
+                                                                    type="file"
+                                                                    accept="image/*"
+                                                                    onChange={(e) => {
+                                                                        form.setValue('image', e.target.files);
+                                                                        handleImageChange(e);
+                                                                    }}
+                                                                    className="hidden"
+                                                                    id="image-upload"
+                                                                />
+                                                                <label
+                                                                    htmlFor="image-upload"
+                                                                    className="flex items-center justify-center w-32 h-32 border-2 border-dashed rounded-lg cursor-pointer hover:border-gray-400 transition-colors"
+                                                                >
+                                                                    {previewImage ? (
+                                                                        <img
+                                                                            src={previewImage}
+                                                                            alt="Preview"
+                                                                            className="w-full h-full object-cover rounded-lg"
+                                                                        />
+                                                                    ) : (
+                                                                        <ImagePlus className="w-8 h-8 text-gray-400" />
+                                                                    )}
+                                                                </label>
+                                                                <div className="flex-1">
+                                                                    <Button
+                                                                        type="button"
+                                                                        variant="outline"
+                                                                        onClick={() =>
+                                                                            document
+                                                                                .getElementById('image-upload')
+                                                                                ?.click()
+                                                                        }
+                                                                        ref={(el) =>
+                                                                            (formRefs.current[field.name] = el)
+                                                                        }
+                                                                    >
+                                                                        Select Image
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
                                                         </FormControl>
                                                         <FormDescription>
-                                                            Add a URL for a company logo or job-related image
-                                                            (optional).
+                                                            Upload a profile picture (max 5MB, .jpg, .png, or .webp)
                                                         </FormDescription>
                                                         <FormMessage />
                                                     </FormItem>
