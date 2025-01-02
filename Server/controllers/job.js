@@ -1,3 +1,4 @@
+import ImageFile from "../models/image.js";
 import Job from "../models/job.js";
 
 export const getJob = async (req, res) => {
@@ -38,12 +39,33 @@ export const getJobs = async (req, res) => {
 };
 
 export const createJobs = async (req, res) => {
+  let imageId = null;
+
+  try {
+    const imageFile = new ImageFile({
+      filename: req.file.originalname,
+      contentType: req.file.mimetype,
+      data: req.file.buffer,
+    });
+    await imageFile.save();
+
+    imageId = imageFile._id;
+  } catch (err) {
+    console.error("Error uploading image", err);
+    return res.status(500).json({ message: "Error uploading job image" });
+  }
+
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
       return res.status(400).json({ message: "Job data is required" });
     }
 
-    const job = await Job.create(req.body);
+    const jobData = {
+      ...req.body,
+      image: imageId,
+    };
+
+    const job = await Job.create(jobData);
     res.status(201).json(job);
   } catch (error) {
     if (error.name === "ValidationError") {
@@ -56,6 +78,8 @@ export const createJobs = async (req, res) => {
 };
 
 export const updateJob = async (req, res) => {
+  let imageId = null;
+
   try {
     const { id } = req.params;
 
@@ -64,12 +88,32 @@ export const updateJob = async (req, res) => {
     }
 
     const job = await Job.findById(id);
-
     if (!job) {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    const updatedJob = await Job.findByIdAndUpdate(id, req.body, {
+    if (req.file) {
+      try {
+        const imageFile = new ImageFile({
+          filename: req.file.originalname,
+          contentType: req.file.mimetype,
+          data: req.file.buffer,
+        });
+        await imageFile.save();
+
+        imageId = imageFile._id;
+      } catch (err) {
+        console.error("Error uploading image", err);
+        return res.status(500).json({ message: "Error uploading job image" });
+      }
+    }
+
+    const updatedJobData = {
+      ...req.body,
+      ...(imageId && { image: imageId }),
+    };
+
+    const updatedJob = await Job.findByIdAndUpdate(id, updatedJobData, {
       new: true,
       runValidators: true,
     });

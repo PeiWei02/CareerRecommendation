@@ -11,5 +11,14 @@ export const jobManagementFormSchema = z.object({
     status: z.boolean(),
     experience: z.string().min(2, { message: 'Experience must be at least 2 characters.' }),
     qualification: z.string().min(10, { message: 'Qualification must be at least 10 characters.' }),
-    picture: z.string().url({ message: 'Invalid URL for picture.' }),
+    image: z.union([
+        z
+            .instanceof(FileList, { message: 'Please upload an image.' })
+            .refine((files) => files.length > 0, { message: 'Image is required.' })
+            .refine((files) => files[0].size <= 5000000, { message: 'Max image size is 5MB.' })
+            .refine((files) => ['image/jpeg', 'image/png', 'image/webp'].includes(files[0].type), {
+                message: 'Only .jpg, .png, and .webp formats are supported.',
+            }),
+        z.string().optional(),
+    ]),
 });

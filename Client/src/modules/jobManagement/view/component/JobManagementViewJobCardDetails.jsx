@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
+import { useImage } from '@/modules/profile/domain/useCase/useImage';
 import { Copy, Mail, Phone } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -9,6 +10,8 @@ import { JobManagementDeleteJobModal } from './JobManagementDeleteJobModal';
 
 export function JobManagementViewJobCardDetails(props) {
     const { job, isAdmin } = props;
+    const { data: image } = useImage(job.image);
+
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const { toast } = useToast();
 
@@ -28,11 +31,17 @@ export function JobManagementViewJobCardDetails(props) {
             <CardHeader>
                 <div className="flex justify-between">
                     <div className="flex items-center">
-                        <img
-                            src={job.picture}
-                            alt="Company logo"
-                            className="w-[6rem] h-[6rem] mr-4 object-cover"
-                        />
+                        {image ? (
+                            <img
+                                src={`data:image/${image.contentType};base64,${image.data}`}
+                                alt={`${name}'s profile`}
+                                className="w-[6rem] h-[6rem] mr-4 object-cover"
+                            />
+                        ) : (
+                            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600">
+                                No Image
+                            </div>
+                        )}
                         <div className="flex gap-x-4">
                             <CardTitle className="text-slate-100">{job.company}</CardTitle>
                             <span
@@ -119,7 +128,7 @@ export function JobManagementViewJobCardDetails(props) {
 JobManagementViewJobCardDetails.propTypes = {
     job: PropTypes.shape({
         _id: PropTypes.string.isRequired,
-        picture: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
         company: PropTypes.string.isRequired,
         jobName: PropTypes.string.isRequired,
         location: PropTypes.string.isRequired,

@@ -27,7 +27,8 @@ const userSchema = new Schema(
       default: "user",
     },
     profilePicture: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
       default: null,
     },
     city: {

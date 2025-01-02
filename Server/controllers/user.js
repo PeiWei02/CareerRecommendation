@@ -1,60 +1,64 @@
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import { CreateToken } from "../middlewares/middlewares.js";
+import ImageFile from "../models/image.js";
 import User from "../models/user.js";
 
 export const signUp = async (req, res) => {
-  const {
-    name,
-    mobile,
-    email,
-    password,
-    role,
-    profilePicture,
-    city,
-    state,
-    country,
-    bio,
-  } = req.body;
-  //validation for all the input fields
+  const { name, mobile, email, password, role, city, state, country, bio } =
+    req.body;
+
   if (!name || !mobile || !email || !password) {
-    return res.status(422).json({ message: "All feilds should be filled" });
+    return res.status(422).json({ message: "All fields should be filled" });
   }
+
+  let profilePictureId = null;
+
+  if (req.file) {
+    try {
+      const imageFile = new ImageFile({
+        filename: req.file.originalname,
+        contentType: req.file.mimetype,
+        data: req.file.buffer,
+      });
+      await imageFile.save();
+
+      profilePictureId = imageFile._id;
+    } catch (err) {
+      console.error("Error uploading image", err);
+      return res
+        .status(500)
+        .json({ message: "Error uploading profile picture" });
+    }
+  }
+
   try {
     let existingUser;
-    //chaecking whether user already sign up or not based on the email
-    try {
-      existingUser = await User.findOne({
-        $or: [{ email: email }, { mobile: mobile }],
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    existingUser = await User.findOne({
+      $or: [{ email: email }, { mobile: mobile }],
+    });
 
     if (existingUser) {
-      if (existingUser.email == email) {
+      if (existingUser.email === email) {
+        return res.status(409).json({ message: "Email is already in use" });
+      } else if (existingUser.mobile === mobile) {
         return res
           .status(409)
-          .json({ message: "A User is already signUp with this email" });
-      } else if (existingUser.mobile == mobile) {
-        return res
-          .status(409)
-          .json({ message: "A User is already signUp with this mobile" });
+          .json({ message: "Mobile number is already in use" });
       }
     }
 
+    // Hash the password
     const salt = await bcrypt.genSalt(6);
-    //hashsync is a function that can hasing the password
-    const hashedpassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    //creating a new User
     const user = new User({
       name,
       mobile,
       email,
-      password: hashedpassword,
-      role: role,
-      profilePicture,
+      password: hashedPassword,
+      role,
+      profilePicture: profilePictureId,
       city,
       state,
       country,
@@ -62,14 +66,14 @@ export const signUp = async (req, res) => {
     });
 
     await user.save();
+
     return res.status(201).json({
-      message: "Account Creation is success, Login to your account",
+      message: "Account created successfully, please log in",
       User: user,
     });
-    //sending the new user details with token as a message for the response
   } catch (err) {
-    console.error(err);
-    return res.status(400).json({ message: "Error in saving user in DB" });
+    console.error("Error saving user", err);
+    return res.status(400).json({ message: "Error saving user in DB" });
   }
 };
 

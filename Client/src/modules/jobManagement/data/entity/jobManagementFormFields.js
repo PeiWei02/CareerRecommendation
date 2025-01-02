@@ -9,5 +9,5 @@ export const jobManagementFormFields = [
     { name: 'status', label: 'Status' },
     { name: 'experience', label: 'Experience' },
     { name: 'qualification', label: 'Qualification' },
-    { name: 'picture', label: 'Picture URL' },
+    { name: 'image', label: 'Company Logo' },
 ];

@@ -44,8 +44,9 @@ const jobSchema = new Schema(
       type: String,
       require: true,
     },
-    picture: {
-      type: String,
+    image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
       require: true,
     },
   },
