@@ -178,7 +178,7 @@ export function EmailPasswordPhoneSetting({ userDetails, refetch }) {
                 mobile: selectedPhoneNumber,
             };
             try {
-                updateUserProfile(userId, Json);
+                await updateUserProfile(userId, Json);
                 toast({
                     title: 'Success!',
                     description: 'Phone Number updated successfully.',

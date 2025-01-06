@@ -16,6 +16,7 @@ export function ViewJobScreen() {
     const { isAdmin } = useContext(AuthContext);
     const [selectedJob, setSelectedJob] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
 
     const { data: allJob, isSuccess, isFetching, isError } = useAllJobs();
 
@@ -30,6 +31,14 @@ export function ViewJobScreen() {
     const getFilteredJobsByRole = (jobs) => {
         return jobs?.filter((job) => isAdmin || job.status === true);
     };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
 
     useEffect(() => {
         if (isSuccess && allJob.length > 0) {
@@ -57,9 +66,14 @@ export function ViewJobScreen() {
     if (isSuccess && allJob.length > 0) {
         const filteredJobsByRole = getFilteredJobsByRole(allJob);
 
-        const filteredJobs = searchQuery
+        const filteredJobs = debouncedSearchQuery
             ? filteredJobsByRole.filter((job) => {
-                  return job.jobName?.toLowerCase().includes(searchQuery.toLowerCase());
+                  return (
+                      job.jobName?.toLowerCase().includes(debouncedSearchQuery.trim().toLowerCase()) ||
+                      job.jobDescription?.toLowerCase().includes(debouncedSearchQuery.trim().toLowerCase()) ||
+                      job.location?.toLowerCase().includes(debouncedSearchQuery.trim().toLowerCase()) ||
+                      job.company?.toLowerCase().includes(debouncedSearchQuery.trim().toLowerCase())
+                  );
               })
             : filteredJobsByRole;
 
@@ -98,8 +112,8 @@ export function ViewJobScreen() {
                                             <JobManagementViewJobCardItem
                                                 key={index}
                                                 job={job}
-                                                onSelect={() => handleJobSelect(job)} // Add an onSelect prop to JobBriefCard
-                                                isSelected={selectedJob === job} // Add an isSelected prop to JobBriefCard
+                                                onSelect={() => handleJobSelect(job)}
+                                                isSelected={selectedJob === job}
                                             />
                                         ))}
                                     </ScrollArea>

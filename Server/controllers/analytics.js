@@ -9,12 +9,14 @@ export const getUserGrowth = async (req, res) => {
     const userGrowth = await User.aggregate([
       {
         $group: {
-          _id: { $month: "$createdAt" },
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
           count: { $sum: 1 },
         },
       },
-      // Sort by month
-      { $sort: { _id: 1 } },
+      { $sort: { "_id.year": 1, "_id.month": 1 } },
     ]);
 
     const months = [
@@ -31,8 +33,10 @@ export const getUserGrowth = async (req, res) => {
       "Nov",
       "Dec",
     ];
+
     const formattedData = userGrowth.map((data) => ({
-      month: months[data._id - 1],
+      year: data._id.year,
+      month: months[data._id.month - 1],
       count: data.count,
     }));
 
@@ -197,11 +201,14 @@ export const getAnalyticsOverview = async (req, res) => {
       const userGrowth = await User.aggregate([
         {
           $group: {
-            _id: { $month: "$createdAt" },
+            _id: {
+              year: { $year: "$createdAt" },
+              month: { $month: "$createdAt" },
+            },
             count: { $sum: 1 },
           },
         },
-        { $sort: { _id: 1 } },
+        { $sort: { "_id.year": 1, "_id.month": 1 } },
       ]).session(session);
 
       const months = [
@@ -220,7 +227,8 @@ export const getAnalyticsOverview = async (req, res) => {
       ];
 
       const userChartData = userGrowth.map((data) => ({
-        month: months[data._id - 1],
+        year: data._id.year,
+        month: months[data._id.month - 1],
         count: data.count,
       }));
 
