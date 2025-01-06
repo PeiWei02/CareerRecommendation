@@ -9,32 +9,53 @@ import {
 } from '@tanstack/react-table';
 import { Search } from 'lucide-react';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const filterBySpecificFields = (row, columnId, filterValue) => {
+    const searchValue = filterValue.toLowerCase();
+    const fieldsToSearch = ['name', 'email', 'role', 'mobile'];
+    return fieldsToSearch.some((field) =>
+        String(row.original[field] || '')
+            .toLowerCase()
+            .includes(searchValue),
+    );
+};
 
 export function DataTable({ columns, data, onRowClick }) {
     const [sorting, setSorting] = useState([]);
-    const [columnFilters, setColumnFilters] = useState([]);
+    const [globalFilter, setGlobalFilter] = useState('');
+    const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useState('');
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel(),
-        onSortingChange: setSorting,
-        getSortedRowModel: getSortedRowModel(),
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
         state: {
             sorting,
-            columnFilters,
+            globalFilter: debouncedGlobalFilter,
         },
+        onSortingChange: setSorting,
+        onGlobalFilterChange: setGlobalFilter,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        globalFilterFn: filterBySpecificFields,
     });
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedGlobalFilter(globalFilter.trim());
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [globalFilter]);
 
     return (
         <div className="space-y-2 py-2">
             <div className="flex items-center py-2 space-x-2">
                 <Input
-                    placeholder="Search by email"
-                    value={table.getColumn('email')?.getFilterValue() || ''}
-                    onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+                    placeholder="Search by name, email, role, or mobile"
+                    value={globalFilter}
+                    onChange={(event) => setGlobalFilter(event.target.value)}
                     className="max-w-sm"
                 />
                 <Search className="text-slate-500" />
@@ -55,7 +76,7 @@ export function DataTable({ columns, data, onRowClick }) {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {table.getRowModel().rows.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}

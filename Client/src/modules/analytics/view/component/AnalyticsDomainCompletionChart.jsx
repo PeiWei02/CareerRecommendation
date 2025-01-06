@@ -76,7 +76,7 @@ export function AnalyticsDomainCompletionChart({ chartData }) {
                                                     y={(viewBox.cy || 0) + 24}
                                                     className="fill-muted-foreground"
                                                 >
-                                                    Visitors
+                                                    Attempt
                                                 </tspan>
                                             </text>
                                         );

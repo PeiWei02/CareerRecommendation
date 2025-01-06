@@ -6,13 +6,22 @@ import { useMemo } from 'react';
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts';
 
 const chartConfig = {
-    month: {
-        label: 'Month',
+    monthYear: {
+        label: 'Month-Year',
         color: 'hsl(var(--chart-1))',
     },
 };
 
 export function AnalyticsUserGrowthChart({ chartData }) {
+    const processedChartData = useMemo(
+        () =>
+            chartData.map((data) => ({
+                ...data,
+                monthYear: `${data.month} ${data.year}`,
+            })),
+        [chartData],
+    );
+
     const growthInfo = useMemo(() => {
         if (chartData.length < 2) return null;
 
@@ -30,8 +39,8 @@ export function AnalyticsUserGrowthChart({ chartData }) {
             percentage: Math.abs(percentageChange).toFixed(1),
             growth: percentageChange > 0,
             unchanged: percentageChange === 0,
-            lastMonth: lastMonthData.month,
-            secondLastMonth: secondLastMonthData.month,
+            lastMonth: `${lastMonthData.month} ${lastMonthData.year}`,
+            secondLastMonth: `${secondLastMonthData.month} ${secondLastMonthData.year}`,
         };
     }, [chartData]);
 
@@ -80,18 +89,17 @@ export function AnalyticsUserGrowthChart({ chartData }) {
                 >
                     <BarChart
                         accessibilityLayer
-                        data={chartData}
+                        data={processedChartData}
                         margin={{
                             top: 20,
                         }}
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis
-                            dataKey="month"
+                            dataKey="monthYear"
                             tickLine={false}
                             tickMargin={10}
                             axisLine={false}
-                            tickFormatter={(value) => value.slice(0, 3)}
                         />
                         <ChartTooltip
                             cursor={false}
@@ -124,6 +132,7 @@ AnalyticsUserGrowthChart.propTypes = {
     chartData: PropTypes.arrayOf(
         PropTypes.shape({
             month: PropTypes.string.isRequired,
+            year: PropTypes.number.isRequired,
             count: PropTypes.number.isRequired,
         }),
     ).isRequired,

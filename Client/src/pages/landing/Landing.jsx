@@ -17,16 +17,14 @@ const Landing = () => {
                         </h1>{' '}
                         <h2 className="inline">
                             <span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text">
-                                Career Recommender
+                                Career & Personality
                             </span>{' '}
-                            for Youth
+                            Exploration for Youth
                         </h2>
                     </main>
-
                     <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-                        The BEST Career Recommender platform for everyone especially youth
+                        The BEST Career & Personality Discovery platform for everyone especially youth
                     </p>
-
                     <div className="space-y-4 md:space-y-0 md:space-x-4">
                         <Link to="/survey">
                             <Button className="w-full md:w-1/3">Test Now</Button>
